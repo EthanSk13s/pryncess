@@ -126,7 +126,7 @@ class Pryncess(Client):
         return card
 
     def get_image(self, card: 'Card', image_type: str,
-    is_awake=False, stream=True):
+    is_awake=False, get_url=False, stream=True):
         a = int(is_awake)
         # Shorten url for PEP
         url = 'https://storage.matsurihi.me/mltd/'
@@ -160,10 +160,13 @@ class Pryncess(Client):
 
         image = image_types.get(image_type)
 
-        if stream:
-            return BytesIO(self._get(image))
+        if not get_url:
+            if stream:
+                return BytesIO(self._get(image))
+            else:
+                return self._get(image)
         else:
-            return self._get(image)
+            return image
 
     def get_event(self, Id: int):
         
