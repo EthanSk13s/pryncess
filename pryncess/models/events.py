@@ -50,11 +50,15 @@ class EventSumm(object):
         self.count = data['count']
 
 class EventData(object):
-    def __init__(self, data: dict):
+    def __init__(self, data: dict):        
         self.score = data['score']
-        self.sum_time = data['summaryTime']
+        self.summ_time = data['summaryTime']
+
 
 class EventLog(object):
     def __init__(self, data: dict):
         self.rank = data['rank']
-        self.data = EventData(data['data'])
+        self.data = {}
+
+        for i in range(len(data['data'])):
+            self.data[i] = EventData(data['data'][i])
