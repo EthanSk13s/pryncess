@@ -3,7 +3,7 @@ import json
 from io import BytesIO
 from typing import Optional
 
-from .models import cards
+from .models import cards, events
 from .name_finder import match_id, set_name
 
 class Client(object):
@@ -170,25 +170,46 @@ class Pryncess(Client):
 
     def get_event(self, Id: int):
         
-        return self._get(f'events/{Id}')
+        return events.Event(self._get(f'events/{Id}'))
 
     def get_borders(self, Id: int):
+        borders = self._get(f'events/{Id}/rankings/borders')
 
-        return self._get(f'events/{Id}/rankings/borders')
+        return events.EventBorders(borders)
 
     def get_event_summaries(self, Id: int, Type: str):
         if Type in self.types:
-            return self._get(f'events/{Id}/rankings/summaries/{Type}')
+            summaries = self._get(f'events/{Id}/rankings/summaries/{Type}')
+        summ_list = []
+        
+        for summary in summaries:
+            summ_obj = events.EventSumm(summary)
+            summ_list.append(summ_obj)
+
+        return summ_list
 
     def get_event_logs(self, Id: int, Type: str, ranks: list):
         if Type in self.types:
             str_ranks = str(ranks).strip('[]').replace(' ', '')
-            return self._get(f'events/{Id}/rankings/logs/{Type}/{str_ranks}')
+            rank = self._get(f'events/{Id}/rankings/logs/{Type}/{str_ranks}')
+        ranker_list = []
+
+        for k in range(len(rank)):
+            ranker = events.EventLog(rank[k])
+            ranker_list.append(ranker)
+
+        return ranker_list
 
     def get_event_idolpoints(self, Id: int, idol_id: int, ranks: list):
         str_ranks = str(ranks).strip('[]').replace(' ', '')
+        rank = self._get(f'events/{Id}/rankings/logs/idolPoint/{idol_id}/{str_ranks}')
+        ranker_list = []
 
-        return self._get(f'events/{Id}/rankings/logs/idolPoint/{idol_id}/{str_ranks}')
+        for k in range(len(rank)):
+            ranker = events.EventLog(rank[k])
+            ranker_list.append(ranker)
+
+        return ranker_list
 
     def get_lounge(self, Id: int):
 
