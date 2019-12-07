@@ -3,7 +3,7 @@ import json
 from io import BytesIO
 from typing import Optional
 
-from .models import cards, events, lounges
+from .models import cards, events, lounges, elections
 from .name_finder import match_id, set_name
 
 class Client(object):
@@ -235,6 +235,6 @@ class Pryncess(Client):
 
     def get_election(self, is_current=False):
         if is_current:
-            return self._get('election/current')
+            return elections.CurrentElection(self._get('election/current'))
         else:
-            return self._get('election')
+            return elections.Election(self._get('election'))
