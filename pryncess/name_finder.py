@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """ 
-This is used to match names since Princess only has jp names
-Value names are from project-imas wiki
+This is used to match names and skills since Princess only has jp strings
+Names are from project-imas wiki
+Skill descriptions are translated via a machine, and edited to make sense
 
 NOTE: The names indexes are neatly ordered to closely match the idol IDs (Add 1 to index to match)
  However, Extra type idols (e.g: Shika and Leon) have their IDs in the 200s
