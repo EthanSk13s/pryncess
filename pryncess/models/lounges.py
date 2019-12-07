@@ -15,7 +15,7 @@ class LoungeHistory(object):
     def __init__(self, data: dict):
         self.event_id = data['eventId']
         self.event_name = data['eventName']
-        self.summary = data['sumamryTime']
+        self.summary = data['summaryTime']
         self.rank = data['rank']
         self.score = data['score']
 
