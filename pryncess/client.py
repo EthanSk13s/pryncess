@@ -3,7 +3,7 @@ import json
 from io import BytesIO
 from typing import Optional
 
-from .models import cards, events, lounges, elections
+from .models import cards, events, lounges, elections, versions
 from .name_finder import match_id, set_name
 
 class Client(object):
@@ -77,15 +77,15 @@ class Pryncess(Client):
 
     def get_latest(self):
 
-        return self._get('version/latest')
+        return versions.LatestVersion(self._get('version/latest'))
 
     def get_version(self, version: str):
         
-        return self._get(f'version/apps/{version}')
+        return versions.App(self._get(f'version/apps/{version}'))
 
     def get_assets(self, version: str):
 
-        return self._get(f'version/assets/{version}')
+        return versions.Res(self._get(f'version/assets/{version}'))
 
     def get_id(self, name: str):
 
