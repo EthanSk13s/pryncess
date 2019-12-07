@@ -105,7 +105,9 @@ class Card(object):
 
         self.skill = Skill(data['skill'][0]) if 'skill' in data else None
 
-        if self.skill is None:
+        if self.skill is not None:
             self.skill_name = data['skillName']
+        else:
+            self.skill_name = None
 
         self.add_date = data['addDate'] if 'addDate' in data else None
