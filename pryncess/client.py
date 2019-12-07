@@ -4,7 +4,7 @@ from io import BytesIO
 from typing import Optional
 
 from .models import cards, events, lounges, elections, versions
-from .name_finder import match_id, set_name
+from .name_finder import match_id, set_name, set_desc
 
 class Client(object):
     def __init__(self, request_session=True, timeout=10):
@@ -111,6 +111,8 @@ class Pryncess(Client):
                 card_obj = cards.Card(x)
                 if tl:
                     set_name(card_obj)
+                    if card_obj.skill is not None:
+                        set_desc(card_obj)
 
                 card.append(card_obj)
         elif Id:
@@ -118,6 +120,7 @@ class Pryncess(Client):
             card = cards.Card(url[0])
             if tl:
                 set_name(card)
+                set_desc(card)
         else:
             msg = "No arguments were passed. (Id, rarity, or extra_type is required)"
             error = Exception(msg)
