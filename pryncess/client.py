@@ -3,7 +3,7 @@ import json
 from io import BytesIO
 from typing import Optional
 
-from .models import cards, events
+from .models import cards, events, lounges
 from .name_finder import match_id, set_name
 
 class Client(object):
@@ -211,17 +211,27 @@ class Pryncess(Client):
 
         return ranker_list
 
-    def get_lounge(self, Id: int):
+    def get_lounge(self, Id: str):
 
-        return self._get(f'lounges/{Id}')
+        return lounges.Lounge(self._get(f'lounges/{Id}'))
 
     def search_lounge(self, query: str):
+        lounge_list = []
+        search = self._get(f'lounges/search?name={query}')
 
-        return self._get(f'lounges/search?name={query}')
+        for lounge in search:
+            lounge_list.append(lounges.LoungeResults(lounge))
+ 
+        return lounge_list
 
-    def get_lounge_eventhistory(self, Id: int):
+    def get_lounge_eventhistory(self, Id: str):
+        history_list = []
+        histories = self._get(f'lounges/{Id}/eventHistory')
 
-        return self._get(f'lounges/{Id}/eventHistory')
+        for history in histories:
+            history_list.append(lounges.LoungeHistory(history))
+
+        return history_list 
 
     def get_election(self, is_current=False):
         if is_current:
