@@ -69,7 +69,7 @@ names = {
     '白石紬': {'name': 'Shiraishi Tsumugi', 'id': 51},
     '桜守歌織': {'name': 'Sakuramori Kaori', 'id': 52},
     '詩花': {'name': 'Shika', 'id': 201},
-    '玲音': {'name': 'Leon', 'id': 203}
+    '玲音': {'name': 'Leon', 'id': 202}
 }
 
 skill_descs = {
