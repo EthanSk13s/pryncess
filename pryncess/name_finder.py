@@ -71,6 +71,21 @@ names = {
     '玲音': {'name': 'Leon', 'id': 203}
 }
 
+skill_descs = {
+    1: {'eval1': 'Every {0} seconds, there is a {1}% chance for {2} seconds, to boost Perfect score by {3}%',
+    'eval2': 'Every {0} seconds, there is a {1}% chance for {2} seconds, to boost Perfect / Great score by {3}%'},
+    2: {'eval1': 'Every {0} seconds, there is a {1}% chance for {2} seconds, to increase Combo Bonus by {3}%'},
+    3: {'eval1': 'Every {0} seconds, there is a {1}% chance for {2} seconds, to recover {3} Life for every Perfect'},
+    4: {'eval1': 'Every {0} seconds, there is a {1}% chance for {2} seconds, life is not reduced'},
+    5: {'eval6': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that every Fast / Slow does not break combo'},
+    6: {'eval1': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats becomes Perfect',
+    'eval2': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats / Goods becomes Perfect',
+    'eval7': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats / Goods / Fast / Slow becomes Perfect'},
+    7: {'eval1': 'Every {0} seconds there is a {1}% chance for {2} seconds, boosts Perfect score by {3}%, and combo bonus by {4}%'},
+    8: {'eval2': 'Every {0} seconds there is a {0}% chance of consuming {1} lives, and for {2} seconds, Perfect score will increase by {3}%'},
+    10: {'eval2': 'Every {0} seconds there is a {0}% chance of consuming {1} lives, and for {2} seconds, Perfect / Great score will increase by {3}%'}
+}
+
 def match_name(query: str):
     if query in names:
         return names.get(query)['name']
@@ -93,3 +108,27 @@ def set_name(card: 'Card'):
     else:
         new_name = match_name(card.name)
         card.name = new_name
+
+def set_desc(card: 'Card'):
+    desc = skill_descs.get(card.skill.effect)
+    if  7 > card.skill.effect >= 4:
+        if card.skill.evaluation > 1:
+            new_desc = desc[f'eval{card.skill.evaluation}'].format(card.skill.interval,
+            card.skill.probability, card.skill.duration)
+        else:
+            new_desc = desc['eval1'].format(card.skill.interval,
+            card.skill.probability, card.skill.duration)
+
+    elif card.skill.effect == 7:
+        new_desc = desc[f'eval{card.skill.evaluation}'].format(card.skill.interval,
+        card.skill.probability, card.skill.duration, card.skill.value[0], card.skill.value[1])
+
+    else:
+        if card.skill.evaluation > 1:
+            new_desc = desc[f'eval{card.skill.evaluation}'].format(card.skill.interval,
+            card.skill.probability, card.skill.duration, card.skill.value[0])
+        else:
+            new_desc = desc['eval1'].format(card.skill.interval,
+            card.skill.probability, card.skill.duration, card.skill.value[0])
+    
+    card.skill.desc = new_desc
