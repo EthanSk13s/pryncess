@@ -4,6 +4,9 @@ This is used to match names and skills since Princess only has jp strings
 Names are from project-imas wiki
 Skill descriptions are translated via a machine, and edited to make sense
 
+The duplications of evals are created due to Mirishita having different evaluation values
+for each card
+
 NOTE: The names indexes are neatly ordered to closely match the idol IDs (Add 1 to index to match)
  However, Extra type idols (e.g: Shika and Leon) have their IDs in the 200s
  So nested dicts with the idol's name and ID is made to make the dict less sensitive
@@ -81,6 +84,8 @@ skill_descs = {
     5: {'eval6': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that every Fast / Slow does not break combo'},
     6: {'eval1': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats becomes Perfect',
     'eval2': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats / Goods becomes Perfect',
+    'eval3': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats becomes Perfect',
+    'eval4': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats / Goods / Fast / Slow becomes Perfect',
     'eval7': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats / Goods / Fast / Slow becomes Perfect'},
     7: {'eval1': 'Every {0} seconds there is a {1}% chance for {2} seconds, boosts Perfect score by {3}%, and combo bonus by {4}%'},
     8: {'eval2': 'Every {0} seconds there is a {0}% chance of consuming {1} lives, and for {2} seconds, Perfect score will increase by {3}%'},
