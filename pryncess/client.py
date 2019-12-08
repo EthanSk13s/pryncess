@@ -131,7 +131,7 @@ class Pryncess(Client):
     def get_image(self, card: 'Card', image_type: str,
     is_awake=False, background=False, get_url=False, stream=True):
         a = int(is_awake)
-
+        b = ''
         # Determine whether to have background or not
         if image_type == 'card':
             if background:
