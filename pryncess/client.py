@@ -129,15 +129,23 @@ class Pryncess(Client):
         return card
 
     def get_image(self, card: 'Card', image_type: str,
-    is_awake=False, get_url=False, stream=True):
+    is_awake=False, background=False, get_url=False, stream=True):
         a = int(is_awake)
+
+        # Determine whether to have background or not
+        if image_type == 'card':
+            if background:
+                b = 'b'
+            else:
+                b = 'a'
+
         # Shorten url for PEP
         url = 'https://storage.matsurihi.me/mltd/'
         c = 'costume_icon_ll'
 
         image_types = {
-            'card': f'{url}card/{card.resc_id}_{a}.png',
-            'icon': f'{url}icon_l/{card.resc_id}_{a}.png',
+            'card': f'{url}card/{card.resc_id}_{a}_{b}.png',
+            'icon': f'{url}icon_l/{card.resc_id}_{a}_{b}.png',
         }
 
         if card.rarity != 4:
