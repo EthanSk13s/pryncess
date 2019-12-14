@@ -91,6 +91,27 @@ skill_descs = {
     8: {'eval2': 'Every {0} seconds there is a {1}% chance of recovering {2} lives, and for {3} seconds, Perfect / Great score will increase by {4}%'},
     10: {'eval2': 'Every {0} seconds there is a {1}% chance of consuming {2} lives, and for {3} seconds, Perfect / Great score will increase by {4}%'}
 }
+center_skill_descs = {
+    1: '{0} type {1} value increased by {2}%',
+    2: 'When only {0} type is present, {1} value is increased by {2}%',
+    3: 'When all 3 types are present, {0} value is increased by {1}%'
+}
+
+attributes = {
+    1: 'vocal',
+    2: 'dance',
+    3: 'visual',
+    4: 'appeal',
+    5: 'life',
+    6: 'skill activation'
+}
+
+idol_types = {
+    1: 'Princess',
+    2: 'Fairy',
+    3: 'Angel',
+    4: 'All'
+}
 
 def match_name(query: str):
     if query in names:
@@ -138,3 +159,23 @@ def set_desc(card: 'Card'):
             card.skill.probability, card.skill.duration, card.skill.value[0])
     
     card.skill.desc = new_desc
+
+def set_center(card: 'Card'):
+    idol_type = idol_types.get(card.type)
+    attribute = attributes.get(card.center_skill.attribute)
+
+    if card.center_skill.id < 6000:
+        if card.center_skill.spec_type is None:
+            new_center = center_skill_descs.get(1)
+
+            card.center_skill.desc = new_center.format(idol_type, 
+            attribute, card.center_skill.value)
+        else:
+            new_center = center_skill_descs.get(2)
+
+            card.center_skill.desc = new_center.format(idol_type, 
+            attribute, card.center_skill.value)
+    else:
+        new_center = center_skill_descs.get(3)
+
+        card.center_skill.desc = new_center.format(attribute, card.center_skill.value)
