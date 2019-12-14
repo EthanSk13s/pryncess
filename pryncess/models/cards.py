@@ -96,11 +96,11 @@ class Card(object):
         self.life = data['life'] if 'life' in data else None
 
         if 'centerEffect' in data:
-            self.center_effect = CenterEffect(data['centerEffect'])
+            self.center_skill = CenterEffect(data['centerEffect'])
         else:
-            self.center_effect = None
+            self.center_skill = None
 
-        if self.center_effect is None:
+        if self.center_skill is None:
             self.center_name = data['centerEffectName']
 
         self.skill = Skill(data['skill'][0]) if 'skill' in data else None
