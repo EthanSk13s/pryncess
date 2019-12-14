@@ -120,7 +120,9 @@ class Pryncess(Client):
             card = cards.Card(url[0])
             if tl:
                 set_name(card)
-                set_desc(card)
+                if card.skill is not None:
+                    set_desc(card)
+
         else:
             msg = "No arguments were passed. (Id, rarity, or extra_type is required)"
             error = Exception(msg)
