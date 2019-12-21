@@ -254,3 +254,20 @@ class Pryncess(Client):
             return elections.CurrentElection(self._get('election/current'))
         else:
             return elections.Election(self._get('election'))
+
+    def get_all_cards(self, tl=False):
+        card_list = self._get('cards')
+        card_objs = []
+
+        for card in card_list:
+            card_objs.append(cards.Card(card))
+
+        if tl:
+            for obj in card_objs:
+                set_name(obj)
+                if obj.skill is not None:
+                    set_desc(obj)
+                if obj.center_skill is not None:
+                    set_center(obj)
+
+        return card_objs
