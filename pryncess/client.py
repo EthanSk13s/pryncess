@@ -271,3 +271,8 @@ class Pryncess(Client):
                     set_center(obj)
 
         return card_objs
+
+    def current_event(self):
+        current_event = self._get('events')[-1]
+
+        return events.Event(current_event)
