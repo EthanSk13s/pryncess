@@ -150,7 +150,7 @@ class Pryncess(Client):
 
         image_types = {
             'card': f'{url}card/{card.resc_id}_{a}_{b}.png',
-            'icon': f'{url}icon_l/{card.resc_id}_{a}_{b}.png',
+            'icon': f'{url}icon_l/{card.resc_id}_{a}.png',
         }
 
         if card.rarity != 4:
