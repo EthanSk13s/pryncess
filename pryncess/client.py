@@ -114,7 +114,7 @@ class Pryncess(Client):
                     if card_obj.skill is not None:
                         set_desc(card_obj)
                     if card_obj.center_skill is not None:
-                        set_center(card)
+                        set_center(card_obj)
 
                 card.append(card_obj)
         elif Id:
