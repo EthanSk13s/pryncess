@@ -163,7 +163,10 @@ class Pryncess(Client):
             image_types['bonus_costume'] = None
         else:
             costume = card.costume.resc_id
-            bonus_costume = card.bonus_costume.resc_id
+            if card.bonus_costume is not None:
+                bonus_costume = card.bonus_costume.resc_id
+            else:
+                bonus_costume = None
 
             image_types['costume'] = f'{url}{c}/{costume}.png'
             image_types['bonus_costume'] = f'{url}{c}/{bonus_costume}.png'
