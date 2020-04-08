@@ -288,3 +288,12 @@ class Pryncess(Client):
         current_event = self._get('events')[-1]
 
         return events.Event(current_event)
+
+    def get_all_events(self):
+        event_list = self._get('events')
+        event_objs = []
+
+        for event in event_list:
+            event_objs.append(events.Event(event))
+
+        return event_objs
