@@ -128,8 +128,8 @@ def match_id(query: str):
                 return values['id']
 
 def set_name(card: 'Card'):
-    if '　' in card.name:
-        title, name = card.name.split('　')
+    if '　' in card.name or ' ' in card.name:
+        title, name = re.split(' |　', card.name)
         new_name = match_name(name)
         card.name = f"{title} {new_name}"
     else:
