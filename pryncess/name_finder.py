@@ -129,7 +129,11 @@ def match_id(query: str):
 
 def set_name(card: 'Card'):
     if '　' in card.name or ' ' in card.name:
-        title, name = re.split(' |　', card.name)
+        splitter = re.split(' |　', card.name)
+        if len(splitter) > 2:
+            title, name = re.split('　', card.name)
+        else:
+            title, name = re.split(' |　', card.name)
         new_name = match_name(name)
         card.name = f"{title} {new_name}"
     else:
