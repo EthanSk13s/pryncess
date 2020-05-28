@@ -58,7 +58,7 @@ names = {
     '横山奈緒': {'name': 'Yokoyama Nao', 'id': 37},
     '二階堂千鶴': {'name': 'Nikaido Chizuru', 'id': 38},
     '馬場このみ': {'name': 'Baba Konomi', 'id': 39},
-    '大神環': {'name': 'Ogami Tanaka', 'id': 40},
+    '大神環': {'name': 'Ogami Tamaki', 'id': 40},
     '豊川風花': {'name': 'Toyokawa Fuka', 'id': 41},
     '宮尾美也': {'name': 'Miyao Miya', 'id': 42},
     '福田のり子': {'name': 'Fukuda Noriko', 'id': 43},
