@@ -89,7 +89,8 @@ skill_descs = {
     'eval7': 'Every {0} seconds, there is a {1}% chance for {2} seconds, that Greats / Goods / Fast / Slow becomes Perfect'},
     7: {'eval1': 'Every {0} seconds there is a {1}% chance for {2} seconds, boosts Perfect score by {3}%, and combo bonus by {4}%'},
     8: {'eval2': 'Every {0} seconds there is a {1}% chance of recovering {2} lives, and for {3} seconds, Perfect / Great score will increase by {4}%'},
-    10: {'eval2': 'Every {0} seconds there is a {1}% chance of consuming {2} lives, and for {3} seconds, Perfect / Great score will increase by {4}%'}
+    10: {'eval2': 'Every {0} seconds there is a {1}% chance of consuming {2} lives, and for {3} seconds, Perfect / Great score will increase by {4}%'},
+    11: {'eval0': 'Every {0} seconds there is a {1}% chance of consuming {2} lives, and for {3} seconds, Combo score will increase by {4}%'}
 }
 center_skill_descs = {
     1: '{0} type {1} value increased by {2}%',
@@ -150,7 +151,7 @@ def set_desc(card: 'Card'):
             new_desc = desc['eval1'].format(card.skill.interval,
             card.skill.probability, card.skill.duration)
 
-    elif 10 >= card.skill.effect >= 7:
+    elif 11 >= card.skill.effect >= 7:
         new_desc = desc[f'eval{card.skill.evaluation}'].format(card.skill.interval,
         card.skill.probability, card.skill.value[1], card.skill.duration, card.skill.value[0])
 
