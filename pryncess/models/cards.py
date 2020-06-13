@@ -93,7 +93,7 @@ class Card(object):
         self.max_awake_visual = data['visualMaxAwakened']
         self.bonus_visual = data['visualMasterBonus']
 
-        self.life = set_life(self.rarity)
+        self.life = self.set_life(self.rarity)
 
         if 'centerEffect' in data:
             self.center_skill = CenterEffect(data['centerEffect'])
@@ -112,7 +112,7 @@ class Card(object):
 
         self.add_date = data['addDate'] if 'addDate' in data else None
 
-        def set_life(self, rarity):
-            # Keys are equivalent to the card's rarity
-            life_values = {1: 25, 2: 30, 3: 35, 4: 40}
-            self.life = life_values.get(rarity)
+    def set_life(self, rarity):
+        # Keys are equivalent to the card's rarity
+        life_values = {1: 25, 2: 30, 3: 35, 4: 40}
+        return life_values.get(rarity)
