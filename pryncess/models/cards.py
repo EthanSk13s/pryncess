@@ -93,7 +93,7 @@ class Card(object):
         self.max_awake_visual = data['visualMaxAwakened']
         self.bonus_visual = data['visualMasterBonus']
 
-        self.life = data['life'] if 'life' in data else None
+        self.life = data['life'] if 'life' in data else 25
 
         if 'centerEffect' in data:
             self.center_skill = CenterEffect(data['centerEffect'])
