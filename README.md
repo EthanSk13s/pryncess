@@ -11,7 +11,8 @@ using the website, matsurihi.
 ```py
 import pryncess
 
-session = pryncess.Pryncess()
+# Pass versions of mirishita ("ja", "ko", "zh")
+session = pryncess.Pryncess("ja")
 card = session.get_card(704)
 
 print(card.name)
