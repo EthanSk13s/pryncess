@@ -18,13 +18,13 @@ class RankCostume(Costume):
 class CenterEffect(object):
     def __init__(self, data: dict):
         self.id = data['id']
-        self.desc = data['description']
+        self.desc = None
+        if 'description' in data:
+            self.desc = data['description']
         self.type = data['idolType']
+        self.spec_type = None
         if 'specificIdolType' in data:
             self.spec_type = data['specificIdolType']
-        else:
-            self.spec_type = None
-
         self.attribute = data['attribute']
         self.value = data['value']
 
