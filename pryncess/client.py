@@ -7,8 +7,8 @@ from .models import cards, events, lounges, elections, versions
 from .name_finder import match_id, set_name, set_desc, set_center
 
 class Client(object):
-    def __init__(self, request_session=True, timeout=10):
-        self.path = "https://api.matsurihi.me/mltd/v1/"
+    def __init__(self, version, request_session=True, timeout=10):
+        self.path = f"https://api.matsurihi.me/mltd/v1/{version}/"
         self.timeout = timeout
         self.retries = 5
 
@@ -67,8 +67,8 @@ class Client(object):
                 raise print('exception:', str(e))
 
 class Pryncess(Client):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, version):
+        super().__init__(version)
         self.types = [
         'eventPoint',
         'highScore',
