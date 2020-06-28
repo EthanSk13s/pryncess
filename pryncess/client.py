@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 from io import BytesIO
 from typing import Optional
 
@@ -63,8 +64,8 @@ class Client(object):
         while reconnect > 0:
             try:
                 return self._internal_call('GET', url, payload, kwargs)
-            except Exception as e:
-                raise print('exception:', str(e))
+            except:
+                time.sleep(2)
 
 class Pryncess(Client):
     def __init__(self, version):
