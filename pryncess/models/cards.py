@@ -1,3 +1,5 @@
+from .consts import *
+
 class Costume(object):
     def __init__(self, data: dict):
         self.id = data['id']
@@ -7,26 +9,48 @@ class Costume(object):
         self.model_id = data['modelId']
         self.sort_id = data['sortId']
 
+
 class BonusCostume(Costume):
     def __init__(self, data: dict):
         super().__init__(data)
+
 
 class RankCostume(Costume):
     def __init__(self, data: dict):
         super().__init__(data)
 
+
 class CenterEffect(object):
     def __init__(self, data: dict):
         self.id = data['id']
         self.desc = None
-        if 'description' in data:
-            self.desc = data['description']
+        self.desc = data['description'] if 'description' in data else None
         self.type = data['idolType']
-        self.spec_type = None
-        if 'specificIdolType' in data:
-            self.spec_type = data['specificIdolType']
+        self.spec_type = data['specificIdolType'] if 'specificIdolType' in data else None
+        self.song_type = data['songType'] if 'songType' in data else None
         self.attribute = data['attribute']
+        self.attribtue_2 = data['attribute2'] if 'attribute2' in data else None
         self.value = data['value']
+        self.value_2 = data['value2'] if 'value2' in data else None
+
+    def tl_desc(self):
+        if self.desc is not None:
+            idol_type = IDOL_TYPES.get(self.type)
+            attribute = ATTRIBUTES.get(self.attribute)
+            value = self.value
+            first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
+
+            if self.song_type is not None:
+                attr_2 = SONG_TYPES.get(self.song_type)
+                value_2 = self.value_2
+                second_cond = SONG_STRING.format(attr_2, value_2)
+                final_tl = f"{first_cond}. {second_cond}"
+                self.desc = final_tl
+            else:
+                self.desc = first_cond
+        else:
+            pass
+
 
 class Skill(object):
     def __init__(self, data: dict):
@@ -40,6 +64,37 @@ class Skill(object):
         self.probability = data['probability']
         self.value = data['value']
 
+    def tl_desc(self):
+        interval = self.interval
+        probability = self.probability
+        duration = self.duration
+
+        interval_str = INTERVAL_STRING.format(interval=interval,
+                                              probability=probability)
+        duration_str = DURATION_STRING.format(duration=duration)
+
+        eff_id = self.effect
+        # Does not need any modification, so we just get the effect string
+        if eff_id == 4:
+            skill_string = f"{interval_str} {EFFECTS.get(eff_id)} {duration_str}"
+            self.desc = skill_string
+            return
+
+        eff_values = {}
+        if self.evaluation != 0:
+            eff_values['evaluation'] = EVALUATIONS.get(self.evaluation)
+
+        if len(self.value) != 0:
+            eff_values['value'] = self.value
+
+        if self.evaluation2 != 0:
+            eff_values['evaluation2'] = EVALUATIONS.get(self.evaluation2)
+
+        effect_str = EFFECTS.get(eff_id).format(**eff_values)
+
+        self.desc = f"{interval_str} {effect_str} {duration_str}"
+
+
 class Card(object):
     def __init__(self, data: dict):
         self.id = data['id']
@@ -50,7 +105,7 @@ class Card(object):
         self.resc_id = data['resourceId']
         self.rarity = data['rarity']
 
-        self.eventId = data['eventId'] if 'eventId' in data else None
+        self.event_id = data['eventId'] if 'eventId' in data else None
 
         self.ex_type = data['extraType']
 

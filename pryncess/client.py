@@ -4,8 +4,7 @@ import time
 from io import BytesIO
 from typing import Optional
 
-from .models import cards, events, lounges, elections, versions
-from .name_finder import match_id, set_name, set_desc, set_center
+from .models import cards, events, lounges, elections, versions, consts
 
 class Client(object):
     def __init__(self, version, request_session=True, timeout=10):
@@ -111,22 +110,22 @@ class Pryncess(Client):
             for x in raw_cards:
                 card_obj = cards.Card(x)
                 if tl:
-                    set_name(card_obj)
+                    consts.set_name(card_obj)
                     if card_obj.skill is not None:
-                        set_desc(card_obj)
+                        card_obj.skill.tl_desc()
                     if card_obj.center_skill is not None:
-                        set_center(card_obj)
+                        card_obj.center_skill.tl_desc()
 
                 card.append(card_obj)
         elif Id:
             url = self._get(f'cards/{Id}')
             card = cards.Card(url[0])
             if tl:
-                set_name(card)
+                consts.set_name(card)
                 if card.skill is not None:
-                    set_desc(card)
+                    card.skill.tl_desc()
                 if card.center_skill is not None:
-                    set_center(card)
+                    card.center_skill.tl_desc()
         else:
             msg = "No arguments were passed. (Id, rarity, or extra_type is required)"
             error = Exception(msg)
@@ -277,11 +276,11 @@ class Pryncess(Client):
 
         if tl:
             for obj in card_objs:
-                set_name(obj)
+                consts.set_name(obj)
                 if obj.skill is not None:
-                    set_desc(obj)
+                    obj.skill.tl_desc()
                 if obj.center_skill is not None:
-                    set_center(obj)
+                    obj.center_skill.tl_desc()
 
         return card_objs
 
