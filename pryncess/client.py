@@ -133,60 +133,6 @@ class Pryncess(Client):
 
         return card
 
-    def get_image(self, card: 'Card', image_type: str,
-    is_awake=False, background=False, get_url=False, stream=True):
-        a = int(is_awake)
-        b = ''
-        # Determine whether to have background or not
-        if image_type == 'card':
-            if background:
-                b = 'b'
-            else:
-                b = 'a'
-
-        # Shorten url for PEP
-        url = 'https://storage.matsurihi.me/mltd/'
-        c = 'costume_icon_ll'
-
-        image_types = {
-            'card': f'{url}card/{card.resc_id}_{a}_{b}.png',
-            'icon': f'{url}icon_l/{card.resc_id}_{a}.png',
-        }
-
-        if card.rarity != 4:
-            image_types['card_bg'] = None
-        else:
-            image_types['card_bg'] = f'{url}card_bg/{card.resc_id}_{a}.png'
-
-        if card.costume is None:
-            image_types['costume'] = None
-            image_types['bonus_costume'] = None
-        else:
-            costume = card.costume.resc_id
-            if card.bonus_costume is not None:
-                bonus_costume = card.bonus_costume.resc_id
-            else:
-                bonus_costume = None
-
-            image_types['costume'] = f'{url}{c}/{costume}.png'
-            image_types['bonus_costume'] = f'{url}{c}/{bonus_costume}.png'
-
-        if card.rank_costume is None:
-            image_types['rank_costume'] = None
-        else:
-            rank_costume = card.rank_costume.resc_id
-            image_types['rank_costume'] = f'{url}{c}/{rank_costume}.png'
-
-        image = image_types.get(image_type)
-
-        if not get_url:
-            if stream:
-                return BytesIO(self._get(image))
-            else:
-                return self._get(image)
-        else:
-            return image
-
     def get_event(self, Id: int):
         
         return events.Event(self._get(f'events/{Id}'))

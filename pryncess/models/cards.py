@@ -9,6 +9,11 @@ class Costume(object):
         self.model_id = data['modelId']
         self.sort_id = data['sortId']
 
+    def get_image(self):
+        img_url = "https://storage.matsurihi.me/mltd/costume_icon_ll"
+        image = f"{img_url}/{self.resc_id}.png"
+
+        return image
 
 class BonusCostume(Costume):
     def __init__(self, data: dict):
@@ -166,3 +171,25 @@ class Card(object):
             self.skill_name = None
 
         self.add_date = data['addDate'] if 'addDate' in data else None
+
+    def get_image(self, img_type: str, bg=False, is_awaken=False):
+        img_path = "https://storage.matsurihi.me/mltd"
+        int_awk = int(is_awaken)
+
+        # Convert bool to string for url equivalence of True/False
+        if bg:
+            str_bg = 'b'
+        else:
+            str_bg = 'a'
+
+        img_types = {
+                "card": f"{img_path}/card/{self.resc_id}_{int_awk}_{str_bg}.png",
+                "icon": f"{img_path}/icon_l/{self.resc_id}_{int_awk}.png"
+                }
+
+        if self.rarity == 4:
+            img_types['card_bg'] = f"{img_path}/card_bg/{self.resc_id}_{int_awk}.png"
+
+        image = img_types.get(img_type)
+
+        return image
