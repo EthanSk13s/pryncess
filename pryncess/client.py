@@ -134,17 +134,8 @@ class Pryncess(Client):
         return card
 
     def get_event(self, Id: int):
-        
+    
         return events.Event(self._get(f'events/{Id}'))
-
-    def get_event_banner(self, event: 'Event', get_url=False):
-        url = f'https://storage.matsurihi.me/mltd/event_bg/{str(event.id).zfill(4)}.png'
-        banner = self._get(url)
-
-        if get_url:
-            return url
-        else:
-            return banner
 
     def get_borders(self, Id: int):
         borders = self._get(f'events/{Id}/rankings/borders')

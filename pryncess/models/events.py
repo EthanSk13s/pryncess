@@ -24,6 +24,16 @@ class Event(object):
         self.schedule = EventSchedule(data['schedule'])
         self.name = data['name']
 
+    def get_event_banner(self, event: 'Event'):
+        url = f'https://storage.matsurihi.me/mltd/event_bg/{str(event.id).zfill(4)}.png'
+
+        if event.id == 80:
+            url = 'https://mltd.matsurihi.me/image/salmon/salmon_top_bg_01.png'
+        elif event.id == 141:
+            url = 'https://mltd.matsurihi.me/image/oyster/oyster_top_bg.png'
+
+        return url
+
 class EventIdolPt(object):
     def __init__(self, data: dict):
         self.idol_id = data['idolId']
