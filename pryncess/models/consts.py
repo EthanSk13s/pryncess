@@ -71,7 +71,9 @@ NAMES = {
     '白石紬': {'name': 'Shiraishi Tsumugi', 'id': 51},
     '桜守歌織': {'name': 'Sakuramori Kaori', 'id': 52},
     '詩花': {'name': 'Shika', 'id': 201},
-    '玲音': {'name': 'Leon', 'id': 202}
+    '玲音': {'name': 'Leon', 'id': 202},
+    '宮本フレデリカ': {'name': 'Miyamoto Frederica', 'id': 204},
+    '一ノ瀬志希': {'name': 'Ichinose Shiki', 'id': 205}
 }
 IDOL_TYPES = {
         1: "Princess",
