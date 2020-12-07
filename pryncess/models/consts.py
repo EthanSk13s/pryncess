@@ -65,7 +65,7 @@ NAMES = {
     '篠宮可憐': {'name': 'Shinomiya Karen', 'id': 45},
     '百瀬莉緒': {'name': 'Momose Rio', 'id': 46},
     '永吉昴': {'name': 'Nagayoshi Subaru', 'id': 47},
-    '北上麗花': {'name': 'Kitami Reika', 'id': 48},
+    '北上麗花': {'name': 'Kitakami Reika', 'id': 48},
     '周防桃子': {'name': 'Suou Momoko', 'id': 49},
     'ジュリア': {'name': 'Julia', 'id': 50},
     '白石紬': {'name': 'Shiraishi Tsumugi', 'id': 51},
@@ -103,7 +103,7 @@ EVALUATIONS = {
         2: "Perfect/Great",
         3: "Great",
         4: "Great/Fast/Good/Slow",
-        5: "Great/Good/Fast/Slow",
+        5: "Perfect/Great/Good",
         6: "Perfect/Great/Good/Fast/Slow",
         7: "Great/Good"
         }
