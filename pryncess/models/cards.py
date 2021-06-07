@@ -45,6 +45,10 @@ class CenterEffect(object):
             value = self.value
             first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
 
+            if any(idol_type, attribute, first_cond) is None:
+                self.desc = "No TL available"
+                return 
+
             if self.song_type is not None:
                 attr_2 = SONG_TYPES.get(self.song_type)
                 value_2 = self.value_2
@@ -77,6 +81,10 @@ class Skill(object):
         interval_str = INTERVAL_STRING.format(interval=interval,
                                               probability=probability)
         duration_str = DURATION_STRING.format(duration=duration)
+
+        if any(interval_str, duration_str) is None:
+            self.desc = "No TL available"
+            return
 
         eff_id = self.effect
         # Does not need any modification, so we just get the effect string
