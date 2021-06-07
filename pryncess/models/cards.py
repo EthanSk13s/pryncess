@@ -82,10 +82,6 @@ class Skill(object):
                                               probability=probability)
         duration_str = DURATION_STRING.format(duration=duration)
 
-        if any(interval_str, duration_str) is None:
-            self.desc = "No TL available"
-            return
-
         eff_id = self.effect
         # Does not need any modification, so we just get the effect string
         if eff_id == 4:
@@ -103,7 +99,11 @@ class Skill(object):
         if self.evaluation2 != 0:
             eff_values['evaluation2'] = EVALUATIONS.get(self.evaluation2)
 
-        effect_str = EFFECTS.get(eff_id).format(**eff_values)
+        try:
+            effect_str = EFFECTS.get(eff_id).format(**eff_values)
+        except AttributeError:
+            self.desc = "No TL available"
+            return
 
         self.desc = f"{interval_str} {effect_str} {duration_str}"
 
