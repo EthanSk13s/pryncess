@@ -89,7 +89,7 @@ class Pryncess(Client):
 
     def get_id(self, name: str):
 
-        return match_id(name)
+        return consts.match_id(name)
 
     def get_card(self, Id: Optional[int] = None,
     rarity: Optional[int] = None, extra_type: Optional[int] = None,
