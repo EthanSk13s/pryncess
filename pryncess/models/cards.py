@@ -45,7 +45,7 @@ class CenterEffect(object):
             value = self.value
             first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
 
-            if any(idol_type, attribute, first_cond) is None:
+            if any([idol_type, attribute, first_cond]) is None:
                 self.desc = "No TL available"
                 return 
 
