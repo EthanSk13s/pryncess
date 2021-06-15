@@ -161,6 +161,8 @@ class Card(object):
         self.max_awake_visual = data['visualMaxAwakened']
         self.bonus_visual = data['visualMasterBonus']
 
+        self.max_master_rank = data['masterRankMax']
+
         self.life = data['life']
 
         if 'centerEffect' in data:
