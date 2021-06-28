@@ -4,10 +4,10 @@ class Costume(object):
     def __init__(self, data: dict):
         self.id = data['id']
         self.name = data['name'] if 'name' in data else None
-        self.desc = data['description']
-        self.resc_id = data['resourceId']
-        self.model_id = data['modelId']
-        self.sort_id = data['sortId']
+        self.desc = data['description'] if 'description' in data else None
+        self.resc_id = data['resourceId'] if 'resourceId' in data else None
+        self.model_id = data['modelId'] if 'modelId' in data else None
+        self.sort_id = data['sortId'] if 'sortId' in data else None
 
     def get_image(self):
         img_url = "https://storage.matsurihi.me/mltd/costume_icon_ll"
@@ -176,7 +176,7 @@ class Card(object):
         self.skill = Skill(data['skill'][0]) if 'skill' in data else None
 
         if self.skill is not None:
-            self.skill_name = data['skillName']
+            self.skill_name = data['skillName'] if 'skillName' in data else None
         else:
             self.skill_name = None
 
