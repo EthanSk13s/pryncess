@@ -3,7 +3,7 @@ from .consts import *
 class Costume(object):
     def __init__(self, data: dict):
         self.id = data['id']
-        self.name = data['name'] if 'name' else None
+        self.name = data['name'] if 'name' in data else None
         self.desc = data['description']
         self.resc_id = data['resourceId']
         self.model_id = data['modelId']
