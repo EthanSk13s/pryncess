@@ -39,26 +39,38 @@ class CenterEffect(object):
         self.value_2 = data['value2'] if 'value2' in data else None
 
     def tl_desc(self):
-        if self.desc is not None:
-            idol_type = IDOL_TYPES.get(self.type)
-            attribute = ATTRIBUTES.get(self.attribute)
-            value = self.value
-            first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
+        if self.type != 0:
+            if self.desc is not None:
+                idol_type = IDOL_TYPES.get(self.type)
+                attribute = ATTRIBUTES.get(self.attribute)
+                value = self.value
+                first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
 
-            if any([idol_type, attribute, first_cond]) is None:
-                self.desc = "No TL available"
-                return 
-
-            if self.song_type is not None:
-                attr_2 = SONG_TYPES.get(self.song_type)
-                value_2 = self.value_2
-                second_cond = SONG_STRING.format(attr_2, value_2)
-                final_tl = f"{first_cond}. {second_cond}"
-                self.desc = final_tl
+                if any([idol_type, attribute, first_cond]) is None:
+                    self.desc = "No TL available"
+                    return 
+                
+                if self.id <= 7000:
+                    first_cond = CENTER_SKILL_STRING.format(idol_type.capitalize(),
+                                                            attribute,
+                                                            value)
+                else:
+                    value_2 = self.value_2
+                    first_cond = CENTER_BOOST_STRING.format(value_2,
+                                                            attribute,
+                                                            value)
+                if self.song_type is not None:
+                    attr_2 = SONG_TYPES.get(self.song_type)
+                    value_2 = self.value_2
+                    second_cond = SONG_STRING.format(attr_2, value_2)
+                    final_tl = f"{first_cond}. {second_cond}"
+                    self.desc = final_tl
+                else:
+                    self.desc = first_cond
             else:
-                self.desc = first_cond
+                pass
         else:
-            pass
+            self.desc = "No Skill."
 
 
 class Skill(object):

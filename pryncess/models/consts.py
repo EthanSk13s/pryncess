@@ -97,7 +97,7 @@ ATTRIBUTES = {
         }
 CENTER_SKILL_STRING = "{0} idols' {1} value is increased by {2}%"
 SONG_STRING = "If playing an {0} song, an additional {1}% is added."
-# TODO: Add new strings for new center skills HERE
+CENTER_BOOST_STRING = "When 3 idol types are present, {1} value is increased by {2}% and skill activation is boosted by {0}%"
 EVALUATIONS = {
         0: None,
         1: "Perfect",
@@ -120,8 +120,8 @@ EFFECTS = {
         7: "of increasing the {evaluation} score by {value[0]} and the combo bonus by {value[1]}%",
         8: "of increasing {evaluation} score by {value[0]}% and recovering {value[1]} life with every {evaluation2}",
         10: "of consuming {value[1]} lives, and increasing {evaluation} score by {value[0]}%",
-        11: "of consuming {value[1]} lives, and increasing combo bonus by {value[0]}%"
-        # 12?: ??????
+        11: "of consuming {value[1]} lives, and increasing combo bonus by {value[0]}%",
+        12: "of boosting score and combo bonuses by {value[0]}%"
         }
 RARITY = {
         1: 'N',
