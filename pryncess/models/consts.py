@@ -70,6 +70,8 @@ NAMES = {
     'ジュリア': {'name': 'Julia', 'id': 50},
     '白石紬': {'name': 'Shiraishi Tsumugi', 'id': 51},
     '桜守歌織': {'name': 'Sakuramori Kaori', 'id': 52},
+    '音無小鳥': {'name': 'Otonashi Kotori', 'id': 101},
+    '青羽美咲': {'name': 'Aoba Misaki', 'id': 102},
     '詩花': {'name': 'Shika', 'id': 201},
     '玲音': {'name': 'Leon', 'id': 202},
     '宮本フレデリカ': {'name': 'Miyamoto Frederica', 'id': 204},
