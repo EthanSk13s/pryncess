@@ -80,6 +80,7 @@ class Skill(object):
         self.effect = data['effectId']
         self.evaluation = data['evaluation']
         self.evaluation2 = data['evaluation2']
+        self.evaluation3 = data['evaluation3']
         self.duration = data['duration']
         self.interval = data['interval']
         self.probability = data['probability']
@@ -110,6 +111,8 @@ class Skill(object):
 
         if self.evaluation2 != 0:
             eff_values['evaluation2'] = EVALUATIONS.get(self.evaluation2)
+        if self.evaluation3 != 0:
+            eff_values['evaluation3'] = EVALUATIONS.get(self.evaluation3)
 
         try:
             effect_str = EFFECTS.get(eff_id).format(**eff_values)
