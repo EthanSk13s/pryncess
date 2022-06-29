@@ -125,7 +125,8 @@ EFFECTS = {
         10: "of consuming {value[1]} lives, and increasing {evaluation} score by {value[0]}%",
         11: "of consuming {value[1]} lives, and increasing combo bonus by {value[0]}%",
         12: "of boosting score and combo bonuses by {value[0]}%",
-        17: "that your {evaluation} score will increase by {value[0]}. Where there are two or more Score Up cards in the unit, the score of {evaluation2} is increased to {value[1]}, and when there are one or more cards that Fusion Combo, {evaluation3} is set to Perfect"
+        17: "that your {evaluation} score will increase by {value[0]}. Where there are two or more Score Up cards in the unit, the score of {evaluation2} is increased to {value[1]}, and when there are one or more cards that Fusion Combo, {evaluation3} is set to Perfect",
+        18: "that the combo bonus will increase by {value[0]}% for 5 seconds. When there are two or more Combo Bonus cards in the unit, the skill activation rate will increase by {value[1]}%, and where are one or more cards that are Fusion Score, {evaluation3} is set to Perfect"
         }
 RARITY = {
         1: 'N',
