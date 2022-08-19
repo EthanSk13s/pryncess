@@ -156,7 +156,13 @@ def set_name(card):
     if '　' in card.name or ' ' in card.name:
         splitter = re.split(' |　', card.name)
         if len(splitter) > 2:
-            title, name = re.split('　', card.name)
+            try:
+                title, name = re.split('　', card.name)
+            except ValueError:
+                title_1, title_2, name = re.split('　', card.name)
+
+                card.name = f"{title_1} {title_2} {match_name(name)}"
+                return
         else:
             title, name = re.split(' |　', card.name)
         new_name = match_name(name)
