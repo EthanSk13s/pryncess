@@ -2,12 +2,16 @@ from .consts import *
 
 class Costume(object):
     def __init__(self, data: dict):
-        self.id = data['id']
+        self.id: int = data['id']
+        self.sort_id = data['sortId'] if 'sortId' in data else None
         self.name = data['name'] if 'name' in data else None
         self.desc = data['description'] if 'description' in data else None
         self.resc_id = data['resourceId'] if 'resourceId' in data else None
         self.model_id = data['modelId'] if 'modelId' in data else None
-        self.sort_id = data['sortId'] if 'sortId' in data else None
+        self.costume_group_id = data['costumeGroupId'] if 'costumeGroupId' in data else None
+        self.collab_number = data['collaborationNumber'] if 'collaborationNumber' in data else None
+        self.default_hairstyle = data['defaultHairstyle'] if 'defaultHairstyle' in data else None
+        self.released_at = data['releasedAt'] if 'releasedAt' in data else None 
 
     def get_image(self):
         img_url = "https://storage.matsurihi.me/mltd/costume_icon_ll"
@@ -138,15 +142,19 @@ class Card(object):
         self.max_skill_lvl: int = data['skillLvMax']
         self.add_date = data['addDate'] if 'addDate' in data else None
 
-        self.costume = Costume(data['costume']) if 'costume' in data else None
+        costumes = data['costumes']
+        if 'default' in costumes:
+            self.costume = Costume(costumes['default'])
+        else:
+            self.costume = None
 
-        if 'bonusCostume' in data:
-            self.bonus_costume = BonusCostume(data['bonusCostume'])
+        if 'bonus' in costumes:
+            self.bonus_costume = BonusCostume(costumes['bonus'])
         else:
             self.bonus_costume = None
 
-        if 'rank5Costume' in data:
-            self.rank_costume = RankCostume(data['rank5Costume'])
+        if 'rank5' in costumes:
+            self.rank_costume = RankCostume(costumes['rank5'])
         else:
             self.rank_costume = None
         if 'flavorText' in data:
