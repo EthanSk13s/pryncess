@@ -27,23 +27,21 @@ class RankCostume(Costume):
 
 class CenterEffect(object):
     def __init__(self, data: dict):
-        self.id = data['id']
-        self.desc = None
+        self.name: str = data['name']
+        self.id: int = data['id']
         self.desc = data['description'] if 'description' in data else None
         self.type = data['idolType']
         self.spec_type = data['specificIdolType'] if 'specificIdolType' in data else None
         self.song_type = data['songType'] if 'songType' in data else None
-        self.attribute = data['attribute']
-        self.attribtue_2 = data['attribute2'] if 'attribute2' in data else None
-        self.value = data['value']
-        self.value_2 = data['value2'] if 'value2' in data else None
+        self.attributes: list[int] = data['attributes']
+        self.values = data['values']
 
     def tl_desc(self):
         if self.type != 0:
             if self.desc is not None:
                 idol_type = IDOL_TYPES.get(self.type)
-                attribute = ATTRIBUTES.get(self.attribute)
-                value = self.value
+                attribute = ATTRIBUTES.get(self.attributes[0])
+                value = self.values[0]
                 first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
 
                 if any([idol_type, attribute, first_cond]) is None:
@@ -55,13 +53,13 @@ class CenterEffect(object):
                                                             attribute,
                                                             value)
                 else:
-                    value_2 = self.value_2
+                    value_2 = self.values[1]
                     first_cond = CENTER_BOOST_STRING.format(value_2,
                                                             attribute,
                                                             value)
-                if self.song_type is not None:
+                if self.song_type != 0:
                     attr_2 = SONG_TYPES.get(self.song_type)
-                    value_2 = self.value_2
+                    value_2 = self.values[1]
                     second_cond = SONG_STRING.format(attr_2, value_2)
                     final_tl = f"{first_cond}. {second_cond}"
                     self.desc = final_tl
@@ -135,7 +133,7 @@ class Card(object):
 
         self.event_id = data['eventId'] if 'eventId' in data else None
 
-        self.ex_type = data['extraType']
+        self.ex_type = data['extraType'] if 'extraType' in data else None
 
         self.costume = Costume(data['costume']) if 'costume' in data else None
 
@@ -155,38 +153,36 @@ class Card(object):
             self.flavor = None
             self.awake_flavor = None
 
-        self.max_level = data['levelMax']
-        self.max_awake_level = data['levelMaxAwakened']
+        if 'parameters' in data:
+            self.max_level = data['levelMax']
+            self.max_awake_level = data['levelMaxAwakened']
 
-        self.min_vocal = data['vocalMin']
-        self.max_vocal = data['vocalMax']
-        self.min_awake_vocal = data['vocalMinAwakened']
-        self.max_awake_vocal = data['vocalMaxAwakened']
-        self.bonus_vocal = data['vocalMasterBonus']
+            self.min_vocal = data['vocalMin']
+            self.max_vocal = data['vocalMax']
+            self.min_awake_vocal = data['vocalMinAwakened']
+            self.max_awake_vocal = data['vocalMaxAwakened']
+            self.bonus_vocal = data['vocalMasterBonus']
 
-        self.min_dance = data['danceMin']
-        self.max_dance = data['danceMax']
-        self.min_awake_dance = data['danceMinAwakened']
-        self.max_awake_dance = data['danceMaxAwakened']
-        self.bonus_dance = data['danceMasterBonus']
+            self.min_dance = data['danceMin']
+            self.max_dance = data['danceMax']
+            self.min_awake_dance = data['danceMinAwakened']
+            self.max_awake_dance = data['danceMaxAwakened']
+            self.bonus_dance = data['danceMasterBonus']
 
-        self.min_visual = data['visualMin']
-        self.max_visual = data['visualMax']
-        self.min_awake_visual = data['visualMinAwakened']
-        self.max_awake_visual = data['visualMaxAwakened']
-        self.bonus_visual = data['visualMasterBonus']
+            self.min_visual = data['visualMin']
+            self.max_visual = data['visualMax']
+            self.min_awake_visual = data['visualMinAwakened']
+            self.max_awake_visual = data['visualMaxAwakened']
+            self.bonus_visual = data['visualMasterBonus']
 
-        self.max_master_rank = data['masterRankMax']
+            self.max_master_rank = data['masterRankMax']
 
-        self.life = data['life']
+            self.life = data['life']
 
         if 'centerEffect' in data:
             self.center_skill = CenterEffect(data['centerEffect'])
         else:
             self.center_skill = None
-
-        if self.center_skill is None:
-            self.center_name = data['centerEffectName']
 
         self.skill = Skill(data['skill'][0]) if 'skill' in data else None
 
