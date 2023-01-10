@@ -1,14 +1,13 @@
 import requests
 import json
 import time
-from io import BytesIO
 from typing import Optional
 
 from .models import cards, events, lounges, elections, versions, consts
 
 class Client(object):
     def __init__(self, version, request_session=True, timeout=10):
-        self.path = f"https://api.matsurihi.me/mltd/v1/{version}/"
+        self.path = f"https://api.matsurihi.me/api/mltd/v2/{version}/"
         self.timeout = timeout
         self.retries = 5
 
@@ -32,7 +31,8 @@ class Client(object):
                 arg = '&'
             else:
                 arg = '?'
-            url = self.path + url + arg +'prettyPrint=false'  # Disable pretty print, we don't need it
+            # Disable pretty print, we don't need it
+            url = self.path + url + arg +'prettyPrint=false'
 
         if payload:
             args['data'] = json.dumps(payload)
@@ -91,20 +91,29 @@ class Pryncess(Client):
 
         return consts.match_id(name)
 
-    def get_card(self, Id: Optional[int] = None,
-    rarity: Optional[int] = None, extra_type: Optional[int] = None,
-    is_idol=False, tl=True):
-        params = {}
-        # Check if we need to add additional parameters to request
-        if is_idol:
-            params['idolId'] = Id
-        if extra_type:
-            params['extraType'] = extra_type
-        if rarity:
-            params['rarity'] = rarity
+    def get_card(
+            self, Id: Optional[int] = None,
+            rarity: Optional[list[int]] = None, extra_type: Optional[list[int]] = None,
+            include_costumes: Optional[bool] = None,
+            include_parameters: Optional[bool] = None,
+            include_lines: Optional[bool] = None,
+            include_skills: Optional[bool] = None,
+            include_events: Optional[bool] = None,
+            is_idol=False, tl=True) -> list[cards.Card]:
+
+        params = Pryncess._construct_params(rarity=rarity,
+                                            ex_type=extra_type,
+                                            include_costumes=include_costumes,
+                                            include_parameters=include_parameters,
+                                            include_lines=include_lines,
+                                            include_skills=include_skills,
+                                            include_events=include_events)
 
         if params:
-            raw_cards = self._get(f'cards', args=params)
+            if Id:
+                raw_cards = self._get(f'cards/{Id}', args=params)
+            else:
+                raw_cards = self._get('cards', args=params)
             card = []
 
             for x in raw_cards:
@@ -117,15 +126,6 @@ class Pryncess(Client):
                         card_obj.center_skill.tl_desc()
 
                 card.append(card_obj)
-        elif Id:
-            url = self._get(f'cards/{Id}')
-            card = cards.Card(url[0])
-            if tl:
-                consts.set_name(card)
-                if card.skill is not None:
-                    card.skill.tl_desc()
-                if card.center_skill is not None:
-                    card.center_skill.tl_desc()
         else:
             msg = "No arguments were passed. (Id, rarity, or extra_type is required)"
             error = Exception(msg)
@@ -234,3 +234,23 @@ class Pryncess(Client):
             event_objs.append(events.Event(event))
 
         return event_objs
+
+    @classmethod
+    def _construct_params(self, **kwargs):
+        params = {}
+        if kwargs['rarity']:
+            params['rarity'] = kwargs['rarity']
+        if kwargs['include_costumes']:
+            params['includeCostumes'] = kwargs['include_costumes']
+        if kwargs['ex_type']:
+            params['exType'] = kwargs['ex_type']
+        if kwargs['include_parameters']:
+            params['includeParameters'] = kwargs['include_parameters']
+        if kwargs['include_lines']:
+            params['includeLines'] = kwargs['include_lines']
+        if kwargs['include_skills']:
+            params['includeSkills'] = kwargs['include_skills']
+        if kwargs['include_events']:
+            params['includeEvents'] = kwargs['include_events']
+
+        return params
