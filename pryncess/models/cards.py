@@ -123,17 +123,20 @@ class Skill(object):
 
 class Card(object):
     def __init__(self, data: dict):
-        self.id = data['id']
-        self.name = data['name']
-        self.sort_id = data['sortId']
-        self.idol_id = data['idolId']
-        self.type = data['idolType']
-        self.resc_id = data['resourceId']
-        self.rarity = data['rarity']
+        self.id: int = data['id']
+        self.name: str = data['name']
+        self.sort_id: int = data['sortId']
+        self.idol_id: int = data['idolId']
+        self.type: int = data['idolType']
+        self.resc_id: str = data['resourceId']
+        self.rarity: str = data['rarity']
 
-        self.event_id = data['eventId'] if 'eventId' in data else None
+        self.ex_type: int = data['extraType'] if 'extraType' in data else None
+        # TODO: add category attribute
 
-        self.ex_type = data['extraType'] if 'extraType' in data else None
+        self.max_master_rank: int = data['masterRankMax']
+        self.max_skill_lvl: int = data['skillLvMax']
+        self.add_date = data['addDate'] if 'addDate' in data else None
 
         self.costume = Costume(data['costume']) if 'costume' in data else None
 
@@ -175,8 +178,6 @@ class Card(object):
             self.max_awake_visual = data['visualMaxAwakened']
             self.bonus_visual = data['visualMasterBonus']
 
-            self.max_master_rank = data['masterRankMax']
-
             self.life = data['life']
 
         if 'centerEffect' in data:
@@ -190,8 +191,6 @@ class Card(object):
             self.skill_name = data['skillName'] if 'skillName' in data else None
         else:
             self.skill_name = None
-
-        self.add_date = data['addDate'] if 'addDate' in data else None
 
     def get_image(self, img_type: str, bg=False, is_awaken=False):
         img_path = "https://storage.matsurihi.me/mltd"
