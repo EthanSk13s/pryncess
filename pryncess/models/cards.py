@@ -73,16 +73,14 @@ class CenterEffect(object):
 
 class Skill(object):
     def __init__(self, data: dict):
-        self.id = data['id']
-        self.desc = data['description']
-        self.effect = data['effectId']
-        self.evaluation = data['evaluation']
-        self.evaluation2 = data['evaluation2']
-        self.evaluation3 = data['evaluation3']
-        self.duration = data['duration']
-        self.interval = data['interval']
-        self.probability = data['probability']
-        self.value = data['value']
+        self.id: int = data['id']
+        self.desc: str = data['description']
+        self.effect: int = data['effectId']
+        self.evaluation_types: list[int] = data['evaluationTypes']
+        self.values: list[int] = data['values']
+        self.duration: int = data['duration']
+        self.interval: int = data['interval']
+        self.probability: int = data['probability']
 
     def tl_desc(self):
         interval = self.interval
@@ -101,17 +99,19 @@ class Skill(object):
             return
 
         eff_values = {}
-        if self.evaluation != 0:
-            eff_values['evaluation'] = EVALUATIONS.get(self.evaluation)
+        if self.evaluation_types is not None:
+            eval_size: int = len(self.evaluation_types)
+            if eval_size == 1:
+                eff_values['evaluation'] = EVALUATIONS.get(self.evaluation_types[0])
 
-        if len(self.value) != 0:
-            eff_values['value'] = self.value
+            if eval_size == 2:
+                eff_values['evaluation2'] = EVALUATIONS.get(self.evaluation_types[1])
 
-        if self.evaluation2 != 0:
-            eff_values['evaluation2'] = EVALUATIONS.get(self.evaluation2)
-        if self.evaluation3 != 0:
-            eff_values['evaluation3'] = EVALUATIONS.get(self.evaluation3)
+            if eval_size == 3:
+                eff_values['evaluation3'] = EVALUATIONS.get(self.evaluation_types[2])
 
+        if len(self.values) != 0:
+            eff_values['value'] = self.values
         try:
             effect_str = EFFECTS.get(eff_id).format(**eff_values)
         except AttributeError:
@@ -185,7 +185,7 @@ class Card(object):
         else:
             self.center_skill = None
 
-        self.skill = Skill(data['skill'][0]) if 'skill' in data else None
+        self.skill = Skill(data['skills'][0]) if 'skills' in data else None
 
         if self.skill is not None:
             self.skill_name = data['skillName'] if 'skillName' in data else None
