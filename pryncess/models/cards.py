@@ -1,6 +1,6 @@
 import typing
 
-from .consts import *
+import pryncess.models.consts as consts
 
 class Costume(object):
     def __init__(self, data: dict):
@@ -45,28 +45,31 @@ class CenterEffect(object):
     def tl_desc(self):
         if self.type != 0:
             if self.desc is not None:
-                idol_type = IDOL_TYPES.get(self.type)
-                attribute = ATTRIBUTES.get(self.attributes[0])
+                idol_type = consts.IDOL_TYPES.get(self.type)
+                attribute = consts.ATTRIBUTES.get(self.attributes[0])
                 value = self.values[0]
-                first_cond = CENTER_SKILL_STRING.format(idol_type, attribute, value)
+                first_cond = consts.CENTER_SKILL_STRING.format(idol_type,
+                                                               attribute,
+                                                               value)
 
                 if any([idol_type, attribute, first_cond]) is None:
                     self.desc = "No TL available"
                     return 
                 
                 if self.id <= 7000:
-                    first_cond = CENTER_SKILL_STRING.format(idol_type.capitalize(),
-                                                            attribute,
-                                                            value)
+                    first_cond = consts.CENTER_SKILL_STRING.format(
+                                                                   idol_type.capitalize(),
+                                                                   attribute,
+                                                                   value)
                 else:
                     value_2 = self.values[1]
-                    first_cond = CENTER_BOOST_STRING.format(value_2,
+                    first_cond = consts.CENTER_BOOST_STRING.format(value_2,
                                                             attribute,
                                                             value)
                 if self.song_type != 0:
-                    attr_2 = SONG_TYPES.get(self.song_type)
+                    attr_2 = consts.SONG_TYPES.get(self.song_type)
                     value_2 = self.values[1]
-                    second_cond = SONG_STRING.format(attr_2, value_2)
+                    second_cond = consts.SONG_STRING.format(attr_2, value_2)
                     final_tl = f"{first_cond}. {second_cond}"
                     self.desc = final_tl
                 else:
@@ -93,33 +96,34 @@ class Skill(object):
         probability = self.probability
         duration = self.duration
 
-        interval_str = INTERVAL_STRING.format(interval=interval,
+        interval_str = consts.INTERVAL_STRING.format(interval=interval,
                                               probability=probability)
-        duration_str = DURATION_STRING.format(duration=duration)
+        duration_str = consts.DURATION_STRING.format(duration=duration)
 
         eff_id = self.effect
         # Does not need any modification, so we just get the effect string
         if eff_id == 4:
-            skill_string = f"{interval_str} {EFFECTS.get(eff_id)} {duration_str}"
+            skill_string = f"{interval_str} {consts.EFFECTS.get(eff_id)} {duration_str}"
             self.desc = skill_string
             return
 
         eff_values = {}
         if self.evaluation_types is not None:
+            eval_types = self.evaluation_types
             eval_size: int = len(self.evaluation_types)
             if eval_size == 1:
-                eff_values['evaluation'] = EVALUATIONS.get(self.evaluation_types[0])
+                eff_values['evaluation'] = consts.EVALUATIONS.get(eval_types[0])
 
             if eval_size == 2:
-                eff_values['evaluation2'] = EVALUATIONS.get(self.evaluation_types[1])
+                eff_values['evaluation2'] = consts.EVALUATIONS.get(eval_types[1])
 
             if eval_size == 3:
-                eff_values['evaluation3'] = EVALUATIONS.get(self.evaluation_types[2])
+                eff_values['evaluation3'] = consts.EVALUATIONS.get(eval_types[2])
 
         if len(self.values) != 0:
             eff_values['value'] = self.values
         try:
-            effect_str = EFFECTS.get(eff_id).format(**eff_values)
+            effect_str = consts.EFFECTS.get(eff_id).format(**eff_values)
         except AttributeError:
             self.desc = "No TL available"
             return
