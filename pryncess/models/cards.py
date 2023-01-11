@@ -1,3 +1,5 @@
+import typing
+
 from .consts import *
 
 class Costume(object):
@@ -124,6 +126,31 @@ class Skill(object):
 
         self.desc = f"{interval_str} {effect_str} {duration_str}"
 
+class Stats(object):
+    def __init__(self, data: dict):
+        stat_values = typing.NamedTuple('StatValues', [('diff', int), ('max', int)])
+        self.base: int = data['base']
+
+        before_awakened = data['beforeAwakened']
+        self.before_awakened = stat_values(before_awakened['diff'],
+                                           before_awakened['max'])
+
+        after_awakened = data['afterAwakened']
+        self.after_awakened = stat_values(after_awakened['diff'], after_awakened['max'])
+        self.master_bonus: int = data['masterBonus']
+
+class PartialStats(object):
+    def __init__(self, data: dict):
+        self.before_awakened: int = data['beforeAwakened']
+        self.after_awakened: int = data['afterAwakened']
+
+class Parameters(object):
+    def __init__(self, data: dict):
+        self.vocal: Stats = Stats(data['vocal'])
+        self.dance: Stats = Stats(data['dance'])
+        self.visual: Stats = Stats(data['visual'])
+        self.lvl_max: PartialStats = PartialStats(data['lvMax'])
+        self.life: PartialStats = PartialStats(data['life'])
 
 class Card(object):
     def __init__(self, data: dict):
@@ -165,28 +192,9 @@ class Card(object):
             self.awake_flavor = None
 
         if 'parameters' in data:
-            self.max_level = data['levelMax']
-            self.max_awake_level = data['levelMaxAwakened']
-
-            self.min_vocal = data['vocalMin']
-            self.max_vocal = data['vocalMax']
-            self.min_awake_vocal = data['vocalMinAwakened']
-            self.max_awake_vocal = data['vocalMaxAwakened']
-            self.bonus_vocal = data['vocalMasterBonus']
-
-            self.min_dance = data['danceMin']
-            self.max_dance = data['danceMax']
-            self.min_awake_dance = data['danceMinAwakened']
-            self.max_awake_dance = data['danceMaxAwakened']
-            self.bonus_dance = data['danceMasterBonus']
-
-            self.min_visual = data['visualMin']
-            self.max_visual = data['visualMax']
-            self.min_awake_visual = data['visualMinAwakened']
-            self.max_awake_visual = data['visualMaxAwakened']
-            self.bonus_visual = data['visualMasterBonus']
-
-            self.life = data['life']
+            self.parameters = Parameters(data['parameters'])
+        else:
+            self.parameters = None
 
         if 'centerEffect' in data:
             self.center_skill = CenterEffect(data['centerEffect'])
