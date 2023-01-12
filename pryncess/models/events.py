@@ -1,28 +1,39 @@
+import typing
+
+from .cards import Card
+
 class EventSchedule(object):
     def __init__(self, data: dict):
-        self.begin = data['beginDate']
-        self.end = data['endDate']
-        self.page_begin = data['pageBeginDate']
-        self.page_end = data['pageEndDate']
+        self.begin = data['beginAt']
+        self.end = data['endAt']
+        self.page_begin = data['pageOpenedAt']
+        self.page_end = data['pageClosedAt']
+        self.boost_begin = data['boostBeginAt']
+        self.boost_end = data['boostEndAt']
 
-        if 'boostBeginDate' in data:
-            self.boost_begin = data['boostBeginDate']
-            self.boost_end = data['boostEndDate']
-        else:
-            self.boost_begin = None
-            self.boost_end = None
+class Item(object):
+    def __init__(self, data: dict):
+        self.name: typing.Union[str, None] = data['name']
+        self.short_name: typing.Union[str, None] = data['shortName']
 
 class Event(object):
     def __init__(self, data: dict):
-        self.id = data['id']
-        self.type = data['type']
-        if 'appealType' in data:
-            self.appeal = data['appealType']
-        else:
-            self.appeal = None
-
+        self.id: int = data['id']
+        self.type: int = data['type']
+        self.appeal: int = data['appealType']
         self.schedule = EventSchedule(data['schedule'])
-        self.name = data['name']
+        self.name: str = data['name']
+        self.item = Item(data['item'])
+        self.cards: typing.Union[list[Card], None]
+
+        if 'cards' in data:
+            cards = []
+            for card in data['cards']:
+                cards.append(Card(card))
+
+            self.cards = cards
+        else:
+            self.cards = None
 
     def get_event_banner(self, event: 'Event'):
         url = f'https://storage.matsurihi.me/mltd/event_bg/{str(event.id).zfill(4)}.png'
