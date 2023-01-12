@@ -156,7 +156,7 @@ class Pryncess(Client):
     def get_event_logs(self, Id: int, Type: str, ranks: list):
         if Type in self.types:
             str_ranks = str(ranks).strip('[]').replace(' ', '')
-            rank = self._get(f'events/{Id}/rankings/logs/{Type}/{str_ranks}')
+            rank = self._get(f'events/{Id}/rankings/{Type}/logs/{str_ranks}')
         ranker_list = []
 
         for k in range(len(rank)):
@@ -167,7 +167,7 @@ class Pryncess(Client):
 
     def get_event_idolpoints(self, Id: int, idol_id: int, ranks: list):
         str_ranks = str(ranks).strip('[]').replace(' ', '')
-        rank = self._get(f'events/{Id}/rankings/logs/idolPoint/{idol_id}/{str_ranks}')
+        rank = self._get(f'events/{Id}/rankings/idolPoint/{idol_id}/logs/{str_ranks}')
         ranker_list = []
 
         for k in range(len(rank)):
