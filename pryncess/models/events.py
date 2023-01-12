@@ -47,25 +47,32 @@ class Event(object):
 
 class EventIdolPt(object):
     def __init__(self, data: dict):
-        self.idol_id = data['idolId']
-        self.borders = data['borders']
+        self.idol_id: int = data['idolId']
+        self.borders: list[int] = data['borders']
 
 class EventBorders(object):
     def __init__(self, data: dict):
-        self.event_pt = data['eventPoint']
-        self.high_score = data['highScore']
-        self.lounge_pt = data['loungePoint']
+        self.event_pt: typing.Union[list[int], None] = data['eventPoint'] if 'eventPoint' in data else None
+        self.high_score: typing.Union[list[int], None] = data['highScore'] if 'highScore' in data else None
+        self.high_score_2: typing.Union[list[int], None] = data['highScore2'] if 'highScore2' in data else None
+        self.high_score_total: typing.Union[list[int], None] = data['highScoreTotal'] if 'highScoreTotal' in data else None
+        self.lounge_pt: typing.Union[list[int], None] = data['loungePoint'] if 'loungePoint' in data else None
+        self.idol_pt: typing.Union[list[EventIdolPt], None]
 
         if 'idolPoint' in data:
-            self.idol_pt = EventIdolPt(data['idolPoint'])
+            rankings = []
+            for idol in data['idolPoint']:
+                rankings.append(EventIdolPt(idol))
+
+            self.idol_pt = rankings
         else:
             self.idol_pt = None
 
 class EventSumm(object):
     def __init__(self, data: dict):
-        self.sum_time = data['summaryTime']
-        if 'updateTime' in data:
-            self.update_time = data['updateTime']
+        self.sum_time = data['aggregatedAt']
+        if 'updatedAt' in data:
+            self.update_time = data['updatedAt']
         else:
             self.update_time = None
         self.count = data['count']
@@ -73,7 +80,7 @@ class EventSumm(object):
 class EventData(object):
     def __init__(self, data: dict):        
         self.score = data['score']
-        self.summ_time = data['summaryTime']
+        self.summ_time = data['aggregatedAt']
 
 
 class EventLog(object):
