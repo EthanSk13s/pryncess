@@ -1,15 +1,7 @@
-class Lounge(object):
+class Master(object):
     def __init__(self, data: dict):
-        self.id = data['id']
-        self.view_id = data['viewerId']
-        self.name = data['name']
-        self.comment = data['comment']
-        self.count = data['userCount']
-        self.limit = data['userCountLimit']
-        self.fan = data['fan']
-        self.master = data['masterName']
-        self.creation = data['createTime']
-        self.update = data['updateTime']
+        self.name: str = data['name']
+        self.icon: str = data['icon']
 
 class LoungeHistory(object):
     def __init__(self, data: dict):
@@ -19,9 +11,19 @@ class LoungeHistory(object):
         self.rank = data['rank']
         self.score = data['score']
 
-class LoungeResults(object):
+class Lounge(object):
     def __init__(self, data: dict):
-        self.id = data['id']
-        self.view_id = data['viewerId']
-        self.name = data['name']
-        self.update= data['updateTime']
+        self.id: int = data['id']
+        self.view_id: str = data['viewerId']
+        self.name: str = data['name']
+        self.comment: str = data['comment']
+        self.master: Master = Master(data['master'])
+        self.fan: int = data['fan']
+        self.rank: int = data['rank']
+        self.play_style_type: int = data['playStyleType']
+        self.mood_type: int = data['moodType']
+        self.approval_type: int = data['approvalType']
+        self.users: int = data['numUsers']
+        self.users_limit: int = data['numUsersLimit']
+        self.created_at = data['createdAt']
+        self.updated_at = data['updatedAt']
