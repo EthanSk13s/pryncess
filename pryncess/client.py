@@ -189,9 +189,9 @@ class Pryncess(Client):
  
         return lounge_list
 
-    def get_lounge_eventhistory(self, Id: str):
+    def get_lounge_event_history(self, Id: str) -> list[lounges.LoungeHistory]:
         history_list = []
-        histories = self._get(f'lounges/{Id}/eventHistory')
+        histories = self._get(f'lounges/{Id}/eventResults')
 
         for history in histories:
             history_list.append(lounges.LoungeHistory(history))

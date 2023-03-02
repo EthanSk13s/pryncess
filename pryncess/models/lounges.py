@@ -1,3 +1,5 @@
+from .events import Event
+
 class Master(object):
     def __init__(self, data: dict):
         self.name: str = data['name']
@@ -5,9 +7,7 @@ class Master(object):
 
 class LoungeHistory(object):
     def __init__(self, data: dict):
-        self.event_id = data['eventId']
-        self.event_name = data['eventName']
-        self.summary = data['summaryTime']
+        self.event: Event = Event(data['event'])
         self.rank = data['rank']
         self.score = data['score']
 
