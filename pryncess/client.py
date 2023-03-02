@@ -180,12 +180,12 @@ class Pryncess(Client):
 
         return lounges.Lounge(self._get(f'lounges/{Id}'))
 
-    def search_lounge(self, query: str):
+    def search_lounge(self, query: str) -> list[lounges.Lounge]:
         lounge_list = []
-        search = self._get(f'lounges/search?name={query}')
+        search = self._get(f'lounges?name={query}')
 
         for lounge in search:
-            lounge_list.append(lounges.LoungeResults(lounge))
+            lounge_list.append(lounges.Lounge(lounge))
  
         return lounge_list
 
