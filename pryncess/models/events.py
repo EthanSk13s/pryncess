@@ -23,7 +23,7 @@ class Event(object):
         self.appeal: int = data['appealType']
         self.schedule = EventSchedule(data['schedule'])
         self.name: str = data['name']
-        self.item = Item(data['item'])
+        self.item: Item = Item(data['item'])
         self.cards: typing.Union[list[Card], None]
 
         if 'cards' in data:

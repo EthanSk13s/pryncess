@@ -91,6 +91,7 @@ class Pryncess(Client):
 
         return consts.match_id(name)
 
+    # TODO: Fix this mess
     def get_card(
             self, Id: Optional[int] = None,
             rarity: Optional[list[int]] = None, extra_type: Optional[list[int]] = None,
@@ -133,16 +134,16 @@ class Pryncess(Client):
 
         return card
 
-    def get_event(self, Id: int):
+    def get_event(self, Id: int) -> events.Event:
     
         return events.Event(self._get(f'events/{Id}'))
 
-    def get_borders(self, Id: int):
+    def get_borders(self, Id: int) -> events.EventBorders:
         borders = self._get(f'events/{Id}/rankings/borders')
 
         return events.EventBorders(borders)
 
-    def get_event_summaries(self, Id: int, Type: str):
+    def get_event_summaries(self, Id: int, Type: str) -> list[events.EventSumm]:
         if Type in self.types:
             summaries = self._get(f'events/{Id}/rankings/summaries/{Type}')
         summ_list = []
@@ -153,7 +154,7 @@ class Pryncess(Client):
 
         return summ_list
 
-    def get_event_logs(self, Id: int, Type: str, ranks: list):
+    def get_event_logs(self, Id: int, Type: str, ranks: list) -> list[events.EventLog]:
         if Type in self.types:
             str_ranks = str(ranks).strip('[]').replace(' ', '')
             rank = self._get(f'events/{Id}/rankings/{Type}/logs/{str_ranks}')
@@ -165,7 +166,7 @@ class Pryncess(Client):
 
         return ranker_list
 
-    def get_event_idolpoints(self, Id: int, idol_id: int, ranks: list):
+    def get_event_idolpoints(self, Id: int, idol_id: int, ranks: list) -> list[events.EventLog]:
         str_ranks = str(ranks).strip('[]').replace(' ', '')
         rank = self._get(f'events/{Id}/rankings/idolPoint/{idol_id}/logs/{str_ranks}')
         ranker_list = []
@@ -176,7 +177,7 @@ class Pryncess(Client):
 
         return ranker_list
 
-    def get_lounge(self, Id: str):
+    def get_lounge(self, Id: str) -> list[lounges.Lounge]:
 
         return lounges.Lounge(self._get(f'lounges/{Id}'))
 
@@ -198,13 +199,14 @@ class Pryncess(Client):
 
         return history_list 
 
-    def get_election(self, is_current=False):
+    # NOTE: This is deprecated(?) Just in case, leave it as a private
+    def _get_election(self, is_current=False):
         if is_current:
             return elections.CurrentElection(self._get('election/current'))
         else:
             return elections.Election(self._get('election'))
 
-    def get_all_cards(self, tl=False):
+    def get_all_cards(self, tl=False) -> list[cards.Card]:
         card_list = self._get('cards')
         card_objs = []
 
@@ -221,12 +223,12 @@ class Pryncess(Client):
 
         return card_objs
 
-    def current_event(self):
+    def current_event(self) -> events.Event:
         current_event = self._get('events')[-1]
 
         return events.Event(current_event)
 
-    def get_all_events(self):
+    def get_all_events(self) -> list[events.Event]:
         event_list = self._get('events')
         event_objs = []
 

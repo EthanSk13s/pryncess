@@ -5,14 +5,14 @@ import pryncess.models.consts as consts
 class Costume(object):
     def __init__(self, data: dict):
         self.id: int = data['id']
-        self.sort_id = data['sortId'] if 'sortId' in data else None
-        self.name = data['name'] if 'name' in data else None
-        self.desc = data['description'] if 'description' in data else None
-        self.resc_id = data['resourceId'] if 'resourceId' in data else None
-        self.model_id = data['modelId'] if 'modelId' in data else None
-        self.costume_group_id = data['costumeGroupId'] if 'costumeGroupId' in data else None
-        self.collab_number = data['collaborationNumber'] if 'collaborationNumber' in data else None
-        self.default_hairstyle = data['defaultHairstyle'] if 'defaultHairstyle' in data else None
+        self.sort_id: typing.Union[int, None] = data['sortId'] if 'sortId' in data else None
+        self.name: typing.Union[str, None] = data['name'] if 'name' in data else None
+        self.desc: typing.Union[str, None] = data['description'] if 'description' in data else None
+        self.resc_id: typing.Union[str, None] = data['resourceId'] if 'resourceId' in data else None
+        self.model_id: typing.Union[str, None] = data['modelId'] if 'modelId' in data else None
+        self.costume_group_id: typing.Union[int, None] = data['costumeGroupId'] if 'costumeGroupId' in data else None
+        self.collab_number: typing.Union[int, None] = data['collaborationNumber'] if 'collaborationNumber' in data else None
+        self.default_hairstyle: typing.Union[int, None] = data['defaultHairstyle'] if 'defaultHairstyle' in data else None
         self.released_at = data['releasedAt'] if 'releasedAt' in data else None 
 
     def get_image(self):
@@ -35,12 +35,12 @@ class CenterEffect(object):
     def __init__(self, data: dict):
         self.name: str = data['name']
         self.id: int = data['id']
-        self.desc = data['description'] if 'description' in data else None
-        self.type = data['idolType']
-        self.spec_type = data['specificIdolType'] if 'specificIdolType' in data else None
-        self.song_type = data['songType'] if 'songType' in data else None
+        self.desc: typing.Union[str, None] = data['description'] if 'description' in data else None
+        self.type: int = data['idolType']
+        self.spec_type: typing.Union[int, None] = data['specificIdolType'] if 'specificIdolType' in data else None
+        self.song_type: typing.Union[int, None] = data['songType'] if 'songType' in data else None
         self.attributes: list[int] = data['attributes']
-        self.values = data['values']
+        self.values: list[int] = data['values']
 
     def tl_desc(self):
         if self.type != 0:
@@ -172,22 +172,25 @@ class Card(object):
         self.max_master_rank: int = data['masterRankMax']
         self.max_skill_lvl: int = data['skillLvMax']
         self.add_date = data['addDate'] if 'addDate' in data else None
+        self.costume: typing.Union[Costume, None] = None
+        self.bonus_costume: typing.Union[Costume, None] = None
+        self.rank_costume: typing.Union[Costume, None] = None
+        self.parameters: typing.Union[Parameters, None] = None
+        self.center_skill: typing.Union[CenterEffect, None] = None
+        self.skill_name: typing.Union[str, None] = None
+        self.skill = Skill(data['skills'][0]) if 'skills' in data else None
 
         costumes = data['costumes']
         if 'default' in costumes:
             self.costume = Costume(costumes['default'])
-        else:
-            self.costume = None
 
         if 'bonus' in costumes:
             self.bonus_costume = BonusCostume(costumes['bonus'])
-        else:
-            self.bonus_costume = None
 
         if 'rank5' in costumes:
             self.rank_costume = RankCostume(costumes['rank5'])
-        else:
-            self.rank_costume = None
+
+        # TODO: Fix flavor texts, its wrapped in lines in JSON data
         if 'flavorText' in data:
             self.flavor = data['flavorText']
             self.awake_flavor = data['flavorTextAwakened']
@@ -197,22 +200,14 @@ class Card(object):
 
         if 'parameters' in data:
             self.parameters = Parameters(data['parameters'])
-        else:
-            self.parameters = None
 
         if 'centerEffect' in data:
             self.center_skill = CenterEffect(data['centerEffect'])
-        else:
-            self.center_skill = None
-
-        self.skill = Skill(data['skills'][0]) if 'skills' in data else None
 
         if self.skill is not None:
             self.skill_name = data['skillName'] if 'skillName' in data else None
-        else:
-            self.skill_name = None
 
-    def get_image(self, img_type: str, bg=False, is_awaken=False):
+    def get_image(self, img_type: str, bg=False, is_awaken=False) -> str:
         img_path = "https://storage.matsurihi.me/mltd"
         int_awk = int(is_awaken)
 
