@@ -63,8 +63,8 @@ class Client(object):
         while reconnect > 0:
             try:
                 return self._internal_call('GET', url, payload, kwargs)
-            except:
-                time.sleep(2)
+            except requests.HTTPError as e:
+                raise Exception(e)
 
 class Pryncess(Client):
     def __init__(self, version):
@@ -91,16 +91,17 @@ class Pryncess(Client):
 
         return consts.match_id(name)
 
-    # TODO: Fix this mess
     def get_card(
-            self, Id: Optional[int] = None,
-            rarity: Optional[list[int]] = None, extra_type: Optional[list[int]] = None,
+            self, card_id: Optional[int] = None,
+            rarity: Optional[list[int]] = None,
+            extra_type: Optional[list[int]] = None,
             include_costumes: Optional[bool] = None,
             include_parameters: Optional[bool] = None,
             include_lines: Optional[bool] = None,
             include_skills: Optional[bool] = None,
             include_events: Optional[bool] = None,
-            is_idol=False, tl=True) -> list[cards.Card]:
+            is_idol=False,
+            tl=True) -> list[cards.Card]:
 
         params = Pryncess._construct_params(rarity=rarity,
                                             ex_type=extra_type,
@@ -110,9 +111,9 @@ class Pryncess(Client):
                                             include_skills=include_skills,
                                             include_events=include_events)
 
-        if params:
-            if Id:
-                raw_cards = self._get(f'cards/{Id}', args=params)
+        if params or card_id:
+            if card_id:
+                raw_cards = self._get(f'cards/{card_id}', args=params)
             else:
                 raw_cards = self._get('cards', args=params)
             card = []
