@@ -62,8 +62,16 @@ class CenterEffect(object):
                 if self.song_type is not None:
                     attr_2 = SONG_TYPES.get(self.song_type)
                     value_2 = self.value_2
-                    second_cond = SONG_STRING.format(attr_2, value_2)
-                    final_tl = f"{first_cond}. {second_cond}"
+                    second_cond = SONG_STRING.format(attr_2)
+                    
+                    if (self.id % 1000) >= 420 and (self.id % 1000) < 500:
+                        third_cond = CENTER_SWING_STRING.format(idol_type.capitalize(),
+                                                                value_2)
+                        final_tl = f"{first_cond}. {second_cond} {third_cond}"
+                    else:
+                        third_cond = CENTER_IDOL_BOOST_STRING.format(value_2)
+                        final_tl = f"{first_cond}. {second_cond} {third_cond}"
+
                     self.desc = final_tl
                 else:
                     self.desc = first_cond
