@@ -207,9 +207,25 @@ class Pryncess(Client):
         else:
             return elections.Election(self._get('election'))
 
-    def get_all_cards(self, tl=False) -> list[cards.Card]:
+    def get_all_cards(self,
+            rarity: Optional[list[int]] = None,
+            extra_type: Optional[list[int]] = None,
+            include_costumes: Optional[bool] = None,
+            include_parameters: Optional[bool] = None,
+            include_lines: Optional[bool] = None,
+            include_skills: Optional[bool] = None,
+            include_events: Optional[bool] = None,
+            tl=False) -> list[cards.Card]:
         card_list = self._get('cards')
         card_objs = []
+
+        params = Pryncess._construct_params(rarity=rarity,
+                                    ex_type=extra_type,
+                                    include_costumes=include_costumes,
+                                    include_parameters=include_parameters,
+                                    include_lines=include_lines,
+                                    include_skills=include_skills,
+                                    include_events=include_events)
 
         for card in card_list:
             card_objs.append(cards.Card(card))
