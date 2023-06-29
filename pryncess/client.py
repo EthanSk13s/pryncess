@@ -216,8 +216,6 @@ class Pryncess(Client):
             include_skills: Optional[bool] = None,
             include_events: Optional[bool] = None,
             tl=False) -> list[cards.Card]:
-        card_list = self._get('cards')
-        card_objs = []
 
         params = Pryncess._construct_params(rarity=rarity,
                                     ex_type=extra_type,
@@ -226,6 +224,9 @@ class Pryncess(Client):
                                     include_lines=include_lines,
                                     include_skills=include_skills,
                                     include_events=include_events)
+        
+        card_list = self._get('cards', params=params)
+        card_objs = []
 
         for card in card_list:
             card_objs.append(cards.Card(card))
