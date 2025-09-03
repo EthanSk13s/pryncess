@@ -25,7 +25,7 @@ For now clone the repo or download the pryncess folder
 So I recommend cloning the repo to make it simple to update.***
 
 ## Dependencies
-- At least Python 3.6 (NOTE: I've only tested with 3.8)
+- At least Python 3.11
 - Requests
 
 ## Note
