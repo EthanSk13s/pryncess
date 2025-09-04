@@ -1,37 +1,46 @@
-import typing
+from datetime import datetime
+from pryncess.types.events import (
+    EventDataDict,
+    EventDict,
+    EventBordersDict,
+    EventIdolPtDict,
+    EventLogDict,
+    EventSummDict,
+    ScheduleDict,
+    ItemDict
+)
 
 from .cards import Card
 
-class EventSchedule(object):
-    def __init__(self, data: dict):
-        self.begin = data['beginAt']
-        self.end = data['endAt']
-        self.page_begin = data['pageOpenedAt']
-        self.page_end = data['pageClosedAt']
-        self.boost_begin = data['boostBeginAt']
-        self.boost_end = data['boostEndAt']
 
-class Item(object):
-    def __init__(self, data: dict):
-        self.name: typing.Union[str, None] = data['name']
-        self.short_name: typing.Union[str, None] = data['shortName']
+class EventSchedule:
+    def __init__(self, data: ScheduleDict):
+        self.begin: datetime = data.get("beginAt")
+        self.end: datetime = data.get("endAt")
+        self.page_opened: datetime = data.get("pageOpenedAt")
+        self.page_closed: datetime = data.get("pageClosedAt")
+        self.boost_begin: datetime | None = data.get("boostBeginAt")
+        self.boost_end: datetime | None = data.get("boostEndAt")
 
-class Event(object):
-    def __init__(self, data: dict):
-        self.id: int = data['id']
-        self.type: int = data['type']
-        self.appeal: int = data['appealType']
-        self.schedule = EventSchedule(data['schedule'])
-        self.name: str = data['name']
-        self.item: Item = Item(data['item'])
-        self.cards: typing.Union[list[Card], None]
 
-        if 'cards' in data:
-            cards = []
-            for card in data['cards']:
-                cards.append(Card(card))
+class Item:
+    def __init__(self, data: ItemDict):
+        self.name: str | None = data.get("name")
+        self.short_name: str | None = data.get("shortName")
 
-            self.cards = cards
+
+class Event:
+    def __init__(self, data: EventDict):
+        self.id: int = data.get("id")
+        self.type: int = data.get("type")
+        self.appeal: int = data.get("appealType")
+        self.name: str = data.get("name")
+        self.schedule: EventSchedule = EventSchedule(data.get("schedule"))
+        self.item: Item = Item(data.get("item"))
+
+        cards = data.get("cards")
+        if cards:
+            self.cards = [Card(card) for card in cards]
         else:
             self.cards = None
 
@@ -45,48 +54,55 @@ class Event(object):
 
         return url
 
-class EventIdolPt(object):
-    def __init__(self, data: dict):
-        self.idol_id: int = data['idolId']
-        self.borders: list[int] = data['borders']
 
-class EventBorders(object):
-    def __init__(self, data: dict):
-        self.event_pt: typing.Union[list[int], None] = data['eventPoint'] if 'eventPoint' in data else None
-        self.high_score: typing.Union[list[int], None] = data['highScore'] if 'highScore' in data else None
-        self.high_score_2: typing.Union[list[int], None] = data['highScore2'] if 'highScore2' in data else None
-        self.high_score_total: typing.Union[list[int], None] = data['highScoreTotal'] if 'highScoreTotal' in data else None
-        self.lounge_pt: typing.Union[list[int], None] = data['loungePoint'] if 'loungePoint' in data else None
-        self.idol_pt: typing.Union[list[EventIdolPt], None]
+class EventIdolPt:
+    def __init__(self, data: EventIdolPtDict):
+        self.idol_id: int = data.get("idolId")
+        self.borders: list[int] = data.get("borders")
 
-        if 'idolPoint' in data:
-            rankings = []
-            for idol in data['idolPoint']:
+
+class EventBorders:
+    def __init__(self, data: EventBordersDict):
+        self.event_pt: list[int] | None = data.get("eventPoint")
+        self.high_score: list[int] | None = data.get("highScore")
+        self.high_score_2: list[int] | None = data.get("highScore")
+        self.high_score_total: list[int] | None = data.get("highScoreTotal")
+        self.lounge_pt = data.get("loungePoint")
+
+        idol_pts: list[EventIdolPtDict] | None = data.get("idolPoint")
+        if idol_pts:
+            rankings: list[EventIdolPt] | None = []
+            for idol in idol_pts:
                 rankings.append(EventIdolPt(idol))
 
-            self.idol_pt = rankings
+            self.idol_pt: list[EventIdolPt] | None = rankings
         else:
             self.idol_pt = None
 
-class EventSumm(object):
-    def __init__(self, data: dict):
-        self.sum_time = data['aggregatedAt']
-        if 'updatedAt' in data:
-            self.update_time = data['updatedAt']
-        else:
-            self.update_time = None
-        self.count = data['count']
 
-class EventData(object):
-    def __init__(self, data: dict):        
-        self.score = data['score']
-        self.summ_time = data['aggregatedAt']
+class EventSumm:
+    def __init__(self, data: EventSummDict):
+        self.count: int = data.get("count")
+        self.sum_time: datetime | None = data.get("aggregatedAt")
+
+        updated: datetime | None = data.get("updatedAt")
+        if updated:
+            self.updated: datetime | None = updated
+        else:
+            self.updated = None
+
+
+class EventData:
+    def __init__(self, data: EventDataDict):        
+        self.score = data.get("score")
+        self.aggregated = data.get("aggregatedAt")
 
 
 class EventLog(object):
-    def __init__(self, data: dict):
-        self.rank = data['rank']
-        self.data = {}
+    def __init__(self, data: EventLogDict):
+        self.rank = data.get("rank")
+        self.data: list[EventData] = []
 
-        for i in range(len(data['data'])):
-            self.data[i] = EventData(data['data'][i])
+        for event_data in data.get("data"):
+            self.data.append(EventData(event_data))
+
