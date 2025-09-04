@@ -105,7 +105,7 @@ class Skill:
         self.id: int = data.get("id")
         self.desc: str = data.get("description")
         self.effect: int = data.get("effectId")
-        self.evaluation_types: list[int] = data.get("evaluations")
+        self.evaluation_types: list[int] = data.get("evaluationTypes")
         self.values: list[int] = data.get("values")
         self.duration: int = data.get("duration")
         self.interval: int = data.get("interval")
@@ -141,8 +141,7 @@ class Skill:
                 eff_values['evaluation3'] = consts.EVALUATIONS.get(eval_types[2])
 
         if len(self.values) != 0:
-            eff_values['value'] = self.values
-        
+            eff_values['value'] = self.values       
         effect_str = consts.EFFECTS.get(eff_id)
         if not effect_str:
             self.desc = "No TL available."

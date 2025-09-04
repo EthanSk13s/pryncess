@@ -38,7 +38,7 @@ class SkillDict(TypedDict):
     duration: int
     interval: int
     probability: int
-    evaluations: list[int]
+    evaluationTypes: list[int]
     values: list[int]
     description: str
 
