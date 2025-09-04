@@ -1,18 +1,17 @@
 from datetime import datetime
-from typing import TYPE_CHECKING
 
 import pryncess.models.consts as consts
 from pryncess.types.cards import SkillDict
 
-if TYPE_CHECKING:
-    from pryncess.types.cards import (
-        CostumeDict,
-        CenterEffectDict,
-        StatsDict,
-        ParameterDict,
-        StatValues,
-        CardDict
-    )
+
+from pryncess.types.cards import (
+    CostumeDict,
+    CenterEffectDict,
+    StatsDict,
+    ParameterDict,
+    StatValues,
+    CardDict
+)
 
 
 class Costume:
@@ -209,6 +208,9 @@ class Card:
         if skills:
             self.skill: Skill | None = Skill(skills[0])
             self.skill_name: str | None = data.get("skillName")
+        else:
+            self.skill = None
+            self.skill_name = None
 
         costumes = data.get("costumes")
         if costumes:
