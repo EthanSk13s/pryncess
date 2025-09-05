@@ -10,6 +10,9 @@ class Birthday:
     def __init__(self, data: BirthdayDict):
         self.month: int = data.get("month")
         self.day: int = data.get("day")
+    
+    def to_tuple(self) -> tuple[int, int]:
+        return (self.month, self.day)
 
 
 class Measurements:
@@ -57,3 +60,11 @@ class Idol:
 
         self.cv: str = data.get("cv")
         self.color_code: str = data.get("colorCode")
+
+    def color_code_to_rgb(self)-> tuple[int, int, int]:
+        hex_str = self.color_code.strip("#")
+        r = hex_str[0:2]
+        g = hex_str[2:4]
+        b = hex_str[4:6]
+
+        return (int(r, 16), int(g, 16), int(b, 16))
