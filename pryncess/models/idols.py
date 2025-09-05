@@ -1,47 +1,59 @@
-import typing
+from pryncess.types.idols import (
+    BirthdayDict,
+    IdolDict,
+    MeasurementsDict,
+    MiscDataDict
+)
 
-# TODO: Maybe add a utility function to return a tuple for month and day
+
 class Birthday:
-    def __init__(self, data: dict):
-        self.month: int = data['month']
-        self.day: int = data['day']
+    def __init__(self, data: BirthdayDict):
+        self.month: int = data.get("month")
+        self.day: int = data.get("day")
+
 
 class Measurements:
-    def __init__(self, data: dict):
-        self.bust: float = data['bust']
-        self.waist: float = data['waist']
-        self.hip: float = data['hip']
+    def __init__(self, data: MeasurementsDict):
+        self.bust: float = data.get("bust")
+        self.waist: float = data.get("waist")
+        self.hip: float = data.get("hip")
+
+
+class MiscData:
+    def __init__(self, data: MiscDataDict):
+        self.id = data.get("id")
+        self.name = data.get("name")
+
 
 class Idol:
-    def __init__(self, data: dict):
-        misc_data = typing.NamedTuple('MiscData', [('id', int), ('name', str)])
+    def __init__(self, data: IdolDict):
+        self.id: int = data.get("id")
+        self.sort_id: int = data.get("sortId")
+        self.resc_id: str = data.get("resourceId")
+        self.type: int = data.get("type")
 
-        self.id: int = data['id']
-        self.sort_id: int = data['sortId']
-        self.resc_id: str = data['resourceId']
-        self.type: int = data['type']
+        self.full_name: str = data.get("fullName")
+        self.display_name: str = data.get("displayName")
+        self.last_name: str = data.get("lastName")
+        self.first_name: str | None = data.get("firstName")
+        self.alpha_name: str = data.get("alphabetName")
+        self.full_name_ruby: str = data.get("fullNameRuby")
 
-        self.full_name: str = data['fullName']
-        self.display_name: str = data['displayName']
-        self.last_name: str = data['lastName']
-        self.first_name: typing.Union[str, None] = data['firstName']
-        self.alpha_name: str = data['alphabetName']
-        self.full_name_ruby: str = data['fullNameRuby']
+        self.age: int | None = data.get("age")
+        self.birthplace = MiscData(data.get("birthplace"))
+        self.handedness = MiscData(data.get("handedness"))
 
-        self.age: typing.Union[int, None] = data['age']
-        self.birthplace = misc_data(data['birthplace'])
-        self.handedness = misc_data(data['handednessType'])
+        self.height: float = data.get("height")
+        self.weight: float = data.get("weight")
 
-        self.height: int = data['height']
-        self.weight: int = data['weight']
-        self.birthday: Birthday = Birthday(data['birthday'])
-        self.measurements: Measurements = Measurements(data['measurements'])
+        self.birthday: Birthday = Birthday(data.get("birthday"))
+        self.measurements: Measurements = Measurements(data.get("measurements"))
+        self.constellation = MiscData(data.get("constellation"))
+        self.blood_type = MiscData(data.get("bloodType"))
 
-        self.hobby: str = data['hobby']
-        self.specialty: str = data['specialty']
-        self.favorites: str = data['favorites']
+        self.hobby: str = data.get("hobby")
+        self.specialty: str = data.get("specialty")
+        self.favorites: str = data.get("favorites")
 
-        self.cv: str = data['cv']
-        self.color_code: str = data['colorCode']
-        self.constellation = misc_data(data['constellation'])
-        self.blood_type = misc_data(data['bloodType'])
+        self.cv: str = data.get("cv")
+        self.color_code: str = data.get("colorCode")
