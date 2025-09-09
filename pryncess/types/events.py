@@ -62,3 +62,21 @@ class EventLoungeDict(TypedDict):
     rank: int
     score: int
     event: EventDict
+
+
+class VotingEventDict(TypedDict):
+    id: int
+    voteSystemType: int
+    event: EventDict
+
+
+class VotingEventRankingDict(TypedDict):
+    candidateId: str
+    rank: int
+    point: int
+
+
+class VotingEventLogDict(TypedDict):
+    aggregatedAt: datetime
+    updatedAt: datetime
+    ranking: list[VotingEventRankingDict]

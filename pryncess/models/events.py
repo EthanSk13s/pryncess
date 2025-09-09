@@ -8,7 +8,10 @@ from pryncess.types.events import (
     EventSummDict,
     ScheduleDict,
     ItemDict,
-    EventLoungeDict
+    EventLoungeDict,
+    VotingEventRankingDict,
+    VotingEventDict,
+    VotingEventLogDict
 )
 
 from .cards import Card
@@ -107,8 +110,34 @@ class EventLog:
         for event_data in data.get("data"):
             self.data.append(EventData(event_data))
 
+
 class LoungeHistory:
     def __init__(self, data: EventLoungeDict):
         self.event: Event = Event(data.get("event"))
         self.rank = data.get("rank")
         self.score = data.get("score")
+
+
+class VotingEvent:
+    def __init__(self, data: VotingEventDict):
+        self.id: int = data.get("id")
+        self.vote_type: int = data.get("voteSystemType")
+        self.event: Event = Event(data.get("event"))
+
+
+class VotingEventRanking:
+    def __init__(self, data: VotingEventRankingDict) -> None:
+        self.candidate_id: str = data.get("candidateId")
+        self.rank: int = data.get("rank")
+        self.point: int = data.get("point")
+
+
+class VotingEventLogs:
+    def __init__(self, data: VotingEventLogDict):
+        self.aggregated: datetime = data.get("aggregatedAt")
+        self.updated: datetime = data.get("updatedAt")
+        self.ranking: list[VotingEventRanking] = []
+
+        for rank in data.get("ranking"):
+            self.ranking.append(VotingEventRanking(rank))
+
