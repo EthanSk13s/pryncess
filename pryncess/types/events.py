@@ -56,3 +56,9 @@ class EventDataDict(TypedDict):
 class EventLogDict(TypedDict):
     rank: int
     data: list[EventDataDict]
+
+
+class EventLoungeDict(TypedDict):
+    rank: int
+    score: int
+    event: EventDict

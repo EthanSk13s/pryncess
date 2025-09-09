@@ -7,7 +7,8 @@ from pryncess.types.events import (
     EventLogDict,
     EventSummDict,
     ScheduleDict,
-    ItemDict
+    ItemDict,
+    EventLoungeDict
 )
 
 from .cards import Card
@@ -98,7 +99,7 @@ class EventData:
         self.aggregated = data.get("aggregatedAt")
 
 
-class EventLog(object):
+class EventLog:
     def __init__(self, data: EventLogDict):
         self.rank = data.get("rank")
         self.data: list[EventData] = []
@@ -106,3 +107,8 @@ class EventLog(object):
         for event_data in data.get("data"):
             self.data.append(EventData(event_data))
 
+class LoungeHistory:
+    def __init__(self, data: EventLoungeDict):
+        self.event: Event = Event(data.get("event"))
+        self.rank = data.get("rank")
+        self.score = data.get("score")

@@ -1,29 +1,25 @@
-from .events import Event
+from pryncess.types.lounges import MasterDict, LoungeDict
 
-class Master(object):
-    def __init__(self, data: dict):
-        self.name: str = data['name']
-        self.icon: str = data['icon']
 
-class LoungeHistory(object):
-    def __init__(self, data: dict):
-        self.event: Event = Event(data['event'])
-        self.rank = data['rank']
-        self.score = data['score']
+class Master:
+    def __init__(self, data: MasterDict):
+        self.name: str = data.get("name")
+        self.icon: str = data.get("icon")
 
-class Lounge(object):
-    def __init__(self, data: dict):
-        self.id: int = data['id']
-        self.view_id: str = data['viewerId']
-        self.name: str = data['name']
-        self.comment: str = data['comment']
-        self.master: Master = Master(data['master'])
-        self.fan: int = data['fan']
-        self.rank: int = data['rank']
-        self.play_style_type: int = data['playStyleType']
-        self.mood_type: int = data['moodType']
-        self.approval_type: int = data['approvalType']
-        self.users: int = data['numUsers']
-        self.users_limit: int = data['numUsersLimit']
-        self.created_at = data['createdAt']
-        self.updated_at = data['updatedAt']
+
+class Lounge:
+    def __init__(self, data: LoungeDict):
+        self.id: str = data.get("id")
+        self.view_id: str = data.get("viewerId")
+        self.name: str = data.get("name")
+        self.comment: str = data.get("comment")
+        self.master: Master = Master(data.get("master"))
+        self.fan: int = data.get("fan")
+        self.rank: int = data.get("rank")
+        self.play_style_type: int = data.get("playStyleType")
+        self.mood_type: int = data.get("moodType")
+        self.approval_type: int = data.get("approvalType")
+        self.num_of_users: int = data.get("numUsers")
+        self.users_limit: int = data.get("numUsersLimit")
+        self.created_at = data.get("createdAt")
+        self.updated_at = data.get("updatedAt")
