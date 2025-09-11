@@ -1,12 +1,17 @@
 from dataclasses import dataclass
 
+from datetime import datetime
 from typing import Any, Self, Protocol
 
 @dataclass
 class Params(Protocol):
-    
     def to_dict(self) -> dict[str, Any]:
         ...
+    
+    @classmethod
+    def all(cls) -> Self:
+        ...
+
 
 @dataclass
 class CardParams(Params):
@@ -51,3 +56,30 @@ class CardParams(Params):
                           costumes=True)
         
         return card_params
+
+
+@dataclass
+class EventParams(Params):
+    event_type: list[int] | None
+    event_at: datetime | None
+    order_by: str | None
+    desc: bool
+
+    def to_dict(self) -> dict[str, Any]:
+        params: dict[str, Any] = {
+            "at": self.event_at,
+            "orderBy": self.order_by
+        }
+
+        # Add an exclamation to sort in descending order per Princess docs.
+        if self.order_by and self.desc:
+            params["orderBy"] += "!"
+
+        if self.event_type:
+            params["type"] = ",".join(str(type) for type in self.event_type)
+        
+        return params
+    
+    @classmethod
+    def all(cls) -> Self:
+        return cls(event_type=None, event_at=None, order_by="beginAt", desc=False)
