@@ -3,7 +3,7 @@ import requests
 from pryncess.internals import Client
 from pryncess.models.cards import Card
 
-from params import CardParams
+from pryncess.mltd.params import CardParams
 
 
 class CardAPI:
