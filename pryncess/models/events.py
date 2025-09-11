@@ -69,7 +69,7 @@ class EventBorders:
     def __init__(self, data: EventBordersDict):
         self.event_pt: list[int] | None = data.get("eventPoint")
         self.high_score: list[int] | None = data.get("highScore")
-        self.high_score_2: list[int] | None = data.get("highScore")
+        self.high_score_2: list[int] | None = data.get("highScore2")
         self.high_score_total: list[int] | None = data.get("highScoreTotal")
         self.lounge_pt = data.get("loungePoint")
 
