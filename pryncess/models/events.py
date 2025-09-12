@@ -57,6 +57,9 @@ class Event:
             url = 'https://mltd.matsurihi.me/image/oyster/oyster_top_bg.png'
 
         return url
+    
+    def __int__(self):
+        return self.id
 
 
 class EventIdolPt:

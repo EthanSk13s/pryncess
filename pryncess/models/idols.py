@@ -68,3 +68,6 @@ class Idol:
         b = hex_str[4:6]
 
         return (int(r, 16), int(g, 16), int(b, 16))
+    
+    def __int__(self):
+        return self.id
