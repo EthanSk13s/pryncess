@@ -126,6 +126,9 @@ class VotingEvent:
         self.id: int = data.get("id")
         self.vote_type: int = data.get("voteSystemType")
         self.event: Event = Event(data.get("event"))
+    
+    def __int__(self):
+        return self.id
 
 
 class VotingEventRanking:
