@@ -23,3 +23,6 @@ class Lounge:
         self.users_limit: int = data.get("numUsersLimit")
         self.created_at = data.get("createdAt")
         self.updated_at = data.get("updatedAt")
+    
+    def __str__(self):
+        return self.id
