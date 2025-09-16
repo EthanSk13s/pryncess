@@ -2,6 +2,25 @@
 requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "pryncess"
+version = "2.0.0"
+description="A Python REST API wrapper for Princess"
+requires-python = ">=3.11"
+authors = [{ name = "EthanSk13s"}]
+readme = { file = "README.md", content-type = "text/markdown" }
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Internet",
+    "Typing :: Typed"
+]
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = "requirements.txt" }
+
 [tool.pyright]
 reportUnnecessaryTypeIgnoreComment = "warning"
 reportUnusedImport = "error"
