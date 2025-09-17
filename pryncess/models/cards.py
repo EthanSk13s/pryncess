@@ -1,13 +1,11 @@
 from datetime import datetime
 
 import pryncess.models.consts as consts
-from pryncess.types.cards import SkillDict
-
-
 from pryncess.types.cards import (
     CostumeDict,
     CenterEffectDict,
     StatsDict,
+    SkillDict,
     ParameterDict,
     StatValues,
     CardDict
@@ -15,6 +13,23 @@ from pryncess.types.cards import (
 
 
 class Costume:
+    """Represents the costume of a card.
+
+    This class is composed with a Card object. Like other composed
+    objects for the card, it is not meant to be manually initialized.
+
+    Attributes:
+        id (int): ID of the costume.
+        sort_id (int | None): ID used for sorting when displayed.
+        name (str | None): Name of the costume.
+        desc (str | None): Description of the costume.
+        resc_id (str | None): ID used to access resources.
+        model_id (str | None): ID used for the 3D Model.
+        costume_group_id (int | None): ID of the costume group. This will be None if the costume is for overseas version.
+        collab_number (int | None): ID of the texture of the costume with texture variations.
+        default_hairstyle (int | None): ID of the default hairstyle. This will be None if the costume is for overseas version.
+        released_at (datetime | None): Date when the costume is added. 
+    """
     def __init__(self, data: CostumeDict):
         self.id: int = data.get("id")
         self.sort_id: int | None = data.get("sortId")
@@ -34,16 +49,36 @@ class Costume:
         return image
 
 class BonusCostume(Costume):
+    """Represents the Bonus Costume of a card. Subclass of Costume.
+    """
     def __init__(self, data: CostumeDict):
         super().__init__(data)
 
 
 class RankCostume(Costume):
+    """Represents the Rank Costume of a card. Subclass of Costume.
+    """
     def __init__(self, data: CostumeDict):
         super().__init__(data)
 
 
 class CenterEffect:
+    """Represents the Center Skill or effect of a card.
+
+    This class is composed with a Card object. Like other composed
+    objects for the card, it is not meant to be manually initialized.
+    Similar to the Skill class, this class can be English translated.
+
+    Attributes:
+        name (str): Name of the Center Effect.
+        id (int): ID of the Center Effect.
+        description (str | None): Description of the Center Effect.
+        type (int): The idol type that the Center Effect would be applied to.
+        spec_type (int | None): The idol type that all idols in a unit should have when the Center Effect is applied.
+        song_type (int | None): The song type that the center effect requires to be able to apply.
+        attributes (list[int]): Parameters that the center effect will be applied to. Ranges from 1-8.
+        values (list[int]): Values of the center effect in percentage.
+    """
     def __init__(self, data: CenterEffectDict):
         self.name: str = data.get("name")
         self.id: int = data.get("id")
@@ -55,6 +90,13 @@ class CenterEffect:
         self.values: list[int] = data.get("values")
 
     def tl_desc(self):
+        """Translates the description of the skill to English.
+
+        Translates the skill description to English using the ID and
+        using the template descrition of the raw string. Note: The template
+        string will be lost in the process as it will be replaced with the
+        English translation.
+        """
         if self.type != 0:
             if self.desc is not None:
                 idol_type = consts.IDOL_TYPES.get(self.type)
@@ -101,6 +143,21 @@ class CenterEffect:
 
 
 class Skill:
+    """Represents the skill associated with a card.
+
+    This class is composed with a Card object. Like other composed
+    objects for the card, it is not meant to be manually initialized.
+
+    Attributes:
+        id (int): Skill ID for the skill.
+        desc (str): Template description for the skill. If the skill is translated, it will be the English description.
+        effect (int): Effect ID of the skill, ranges from 1-18. Representing the different effects that the skill can do.
+        evaluation_types (list[int]): Conditions that the skill needs to activate. Ranges from 0-7.
+        values (list[int]): Values of the skill effect.
+        duration (int): Duration of the skill in seconds.
+        interval (int): Interval of when the skill activates in seconds.
+        probability (int): Chance of the skill activating in percentage.
+    """
     def __init__(self, data: SkillDict):
         self.id: int = data.get("id")
         self.desc: str = data.get("description")
@@ -112,6 +169,13 @@ class Skill:
         self.probability: int = data.get("probability")
 
     def tl_desc(self):
+        """Translates the description of the skill to English.
+
+        Translates the skill description to English using the effect ID and
+        using the template descrition of the raw string. Note: The template
+        string will be lost in the process as it will be replaced with the
+        English translation.
+        """
         interval = self.interval
         probability = self.probability
         duration = self.duration
@@ -152,6 +216,15 @@ class Skill:
 
 
 class Stats:
+    """Represents the various values of a stat and specific values for calculating
+    values at different levels.
+
+    Attributes:
+        base (int): Value of the stat at Level 1.
+        before_awakened (StatValues): Initial incremental values of the stat.
+        after_awakened (StatValues): Awakened incremental values of the stat.
+        master_bonus (StatValues): Bonus value per master rank.
+    """
     def __init__(self, data: StatsDict):
         self.base: int = data["base"]
 
@@ -166,12 +239,36 @@ class Stats:
 
 
 class PartialStats:
+    """Represent the values of a stat for the initial state of a card, and
+    when it's awakened.
+
+    The difference between this class and the Stats class is that it only
+    contains values when the card is in its initial state or its awakened state.
+
+    Attributes:
+        before_awakened (int | None): Value of a stat before it is awakened.
+        after_awakened (int | None): Value of a state after it is awakened.
+    """
     def __init__(self, data: dict[str, int]):
         self.before_awakened: int | None = data["beforeAwakened"]
         self.after_awakened: int | None = data["afterAwakened"]
 
 
 class Parameters:
+    """Represents the various stats a card will have.
+
+    This class is not to be manually initialized and is composed via a Card object.
+    This class represents the various numerical stats that card will have.
+    These include: Vocal, Dance, Visual, the max level, and the life of a
+    specific card.
+
+    Attributes:
+        vocal (Stats): Vocal stats of the card.
+        dance (Stats): Dance stats of the card.
+        visual (Stats): Visual stats of the card.
+        lvl_max (PartialStats): Max level of the card.
+        life (PartialStats): Life values of the card.
+    """
     def __init__(self, data: ParameterDict):
         self.vocal: Stats = Stats(data.get("vocal"))
         self.dance: Stats = Stats(data.get("dance"))
@@ -181,6 +278,34 @@ class Parameters:
 
 
 class Card:
+    """Represents a card object from the response Princess returns.
+
+    This class is initialized via a TypedDict representing the JSON response
+    that the API returns. Therefore, you are not meant to manually initialize
+    this class. Refer to Princess API documentation for more details for what
+    each attribute means. Especially that of integer types.
+
+    Attributes:
+        id (int): ID for the card.
+        name (str): The card's name. This can be a translated string or just the raw string.
+        sort_id (int): Sort ID that is used when displayed.
+        idol_id (int): ID for the idol that the card belongs to.
+        type (int): Type of the idol's attribute.
+        resc_id (str): Resource ID for images and assets.
+        rarity (int): Rarity level of the card ranging from 1-4.
+        ex_type (int): Extra type of the card ranging from 0-22 (excluding 1).
+        category (int): Category of the card.
+        max_master_rank (int): Maximum master rank.
+        max_skill_lvl (int): Maximum skill level.
+        add_date (datetime): Date when the card was added to the game.
+        parameters (Parameters | None): Card parameters.
+        center_skill (CenterEffect | None): Center Skill associated with the card.
+        skill (Skill | None): Skill associated to the card.
+        skill_name (str | None): Name of the card's skill.
+        costume (Costume, optional): Default costume unlocked by the card.
+        bonus_costume (BonusCostume, optional): Bonus costume tied to the card.
+        rank_costume (RankCostume, optional): Rank 5 costume tied to the card.
+    """
     def __init__(self, data: CardDict):
         self.id: int = data.get("id")
         self.name: str = data.get("name")
@@ -227,6 +352,26 @@ class Card:
         # TODO: Add lines for cards
 
     def get_image(self, img_type: str, bg: bool = False, is_awaken: bool = False) -> str | None:
+        """Returns the URL for a card's image.
+
+        Constructs the appropriate image URL based on the card's resource ID,
+        image type, background flag, and whether the image is the awakened version.
+
+        Args:
+            img_type (str): The type of image to retrieve. Supported values:
+                - "card": Full-size card image.
+                - "icon": Icon-sized card image.
+                - "card_bg": Background image for 4-star rarity cards.
+            bg (bool, optional): Whether to fetch the "background" version of
+                the card image. Defaults to False.
+            is_awaken (bool, optional): Whether to fetch the awakened version
+                of the image. Defaults to False.
+
+        Returns:
+            str | None: The URL string of the requested image, or None if the
+            `img_type` is unsupported for this card.
+        """
+
         img_path = "https://storage.matsurihi.me/mltd"
         int_awk = int(is_awaken)
 
