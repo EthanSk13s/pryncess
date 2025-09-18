@@ -18,6 +18,19 @@ from .cards import Card
 
 
 class EventSchedule:
+    """Represents the schedule of an event.
+
+    This class contains various time specific information about
+    the event.
+
+    Attributes:
+        begin (:class:`datetime.datetime`): Datetime of when the event begins.
+        end (:class:`datetime.datetime`): Datetime of when the event ends.
+        page_opened (:class:`datetime.datetime`): Datetime of when the event's page is opened in the game.
+        page_closed (:class:`datetime.datetime`): Datetime of when the event's page is closed in the game.
+        boost_begin (:class:`datetime.datetime` | `None`): Datetime of when event boosts starts if the event has one.
+        boost_end (:class:`datetime.datetime` | `None`): Datetime of when event boosts ends.
+    """
     def __init__(self, data: ScheduleDict):
         self.begin: datetime = data.get("beginAt")
         self.end: datetime = data.get("endAt")
@@ -28,12 +41,38 @@ class EventSchedule:
 
 
 class Item:
+    """Represents the item that an :class:`Event` uses for currency.
+
+    Attributes:
+        name (:class:`str` | `None`): The name of the item.
+        short_name (:class:`str` | `None`): The short name of the item.
+    """
     def __init__(self, data: ItemDict):
         self.name: str | None = data.get("name")
         self.short_name: str | None = data.get("shortName")
 
 
 class Event:
+    """Represent the Event response that the API returns.
+
+    This class is initialized via a TypedDict representing the JSON response
+    that the API returns. Therefore, you are not meant to manually initialize
+    this class. Refer to Princess API documentation for more details for what
+    each attribute means. Especially that of integer types.
+
+    Attributes:
+        id (:class:`int`): The ID for the event.
+        type (:class:`int`): The type of the event. Ranges from 1-16.
+        appeal (:class:`int`): The parameter that the event bonus is applied to. Ranges from 0-3.
+        name (:class:`name`): The name of the event.
+        schedule (:class:`EventSchedule`): The schedule for the event.
+        item (:class:`Item`): The item for the event.
+    Note:
+        The attribute :class:`item` will never be `None`, but the name and short name can be `None`. Therefore
+        if the name is `None`, then the item is `None`.
+    Hint:
+        Casting an instance of :class:`Event` to an :class:`int` will return the event ID.
+    """
     def __init__(self, data: EventDict):
         self.id: int = data.get("id")
         self.type: int = data.get("type")
@@ -49,6 +88,11 @@ class Event:
             self.cards = None
 
     def get_event_banner(self, event: 'Event'):
+        """Returns the URL for an Event's banner image.
+
+        Returns:
+            :class:`str`: The URL string of the banner.
+        """
         url = f'https://storage.matsurihi.me/mltd/event_bg/{str(event.id).zfill(4)}.png'
 
         if event.id == 80:
