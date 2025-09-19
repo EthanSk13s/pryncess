@@ -7,15 +7,33 @@ from pryncess.types.idols import (
 
 
 class Birthday:
+    """Represents the Birthday of an idol.
+
+    Attributes:
+        month (:class:`int`): The birth month.
+        day (:class:`int`): The birthday of the birth month.
+    """
     def __init__(self, data: BirthdayDict):
         self.month: int = data.get("month")
         self.day: int = data.get("day")
     
     def to_tuple(self) -> tuple[int, int]:
+        """Returns the birthday in a tuple.
+
+        Returns:
+            tuple[:class:`int`, :class:`int`]: The tuple is formatted as: (`month`, `day`).
+        """
         return (self.month, self.day)
 
 
 class Measurements:
+    """Represents the three sizes of an idol.
+
+    Attributes:
+        bust (:class:`int`): The bust size of the idol.
+        waist (:class:`int`): The waist size of the idol.
+        hip (:class:`int`): The hip size of the idol.
+    """
     def __init__(self, data: MeasurementsDict):
         self.bust: float = data.get("bust")
         self.waist: float = data.get("waist")
@@ -23,12 +41,60 @@ class Measurements:
 
 
 class MiscData:
+    """Represents the miscellaneous data that idols can have.
+
+    Typically, the miscellaneous data will be:
+        - Birthplace.
+        - Handedness.
+        - Birth Constellation.
+        - Blood type.
+
+    Attributes:
+        id (:class:`int`): The ID of the corresponding data.
+        name (:class:`str`): The name of the corresponding data.
+    """
     def __init__(self, data: MiscDataDict):
         self.id = data.get("id")
         self.name = data.get("name")
 
 
 class Idol:
+    """Represents an Idol object returned from the Princess API.
+
+    This class is initialized via a TypedDict representing the JSON response
+    that the API returns. Therefore, you are not meant to manually initialize
+    this class.
+
+    Attributes:
+        id (:class:`id`): The ID of the idol.
+        sort_id (:class:`int`): The ID that is used when displayed.
+        resc_id (:class:`int`): The resource ID used to access various resources.
+        type (:class:`int`): The type of the idol. Ranges from 1-5.
+        full_name (:class:`str`): The full name of the idol.
+        display_name (:class:`str`): The display name of the idol.
+        last_name (:class:`str`): The last name of the idol.
+        first_name (:class:`str` | `None`): The first name of the idol.
+            This will be None for Julia, Shika or Leon.
+        alpha_name (:class:`str`): The name of the idol in English.
+        full_name_ruby (:class:`str`): The pronounciation for the full name of the idol.
+            Will be in Hiragana.
+        age (:class:`int` | `None`): The age of the idol. Will be None if the age is unknown.
+        birthplace (:class:`MiscData`): The birthplace of the idol.
+        handedness (:class:`MiscData`): The handedness of the idol.
+        height (:class:`float`): The height of the idol in centimeters.
+        weight (:class:`float`): The weight of the idol in kilograms.
+        birthday (:class:`Birthday`): The birthday of the idol.
+        measurements (:class:`Measurements`): The measurements of the idol.
+        constellation (:class:`MiscData`): The birth constellation of the idol.
+        blood_type (:class:`MiscData`): The blood type of the idol.
+        hobby (:class:`str`): The hobby of the idol. Written in Japanese.
+        specialty (:class:`str`): The specialty of the idol. Written in Japanese.
+        favorites (:class:`str`): The favorite things of the idol. Written in Japanese.
+        cv (:class:`str`): The Voice actress of the idol. Written in Japanese.
+        color_code (:class:`str`): The personal color code of the idol in hex form.
+    Note:
+        When casted to :class:`int`, it will return the ID of the idol.
+    """
     def __init__(self, data: IdolDict):
         self.id: int = data.get("id")
         self.sort_id: int = data.get("sortId")
@@ -62,6 +128,11 @@ class Idol:
         self.color_code: str = data.get("colorCode")
 
     def color_code_to_rgb(self)-> tuple[int, int, int]:
+        """Returns the color code of the idol in RGB format.
+
+        Returns:
+            tuple[:class:`int`, :class:`int`, :class:`int`]: The color code in RGB format as a tuple.
+        """
         hex_str = self.color_code.strip("#")
         r = hex_str[0:2]
         g = hex_str[2:4]
