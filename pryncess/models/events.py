@@ -53,7 +53,7 @@ class Item:
 
 
 class Event:
-    """Represent the Event response that the API returns.
+    """Represents the Event response that the API returns.
 
     This class is initialized via a TypedDict representing the JSON response
     that the API returns. Therefore, you are not meant to manually initialize
@@ -107,18 +107,36 @@ class Event:
 
 
 class EventIdolPt:
+    """Represents the tiers and borders of a specific idol during anniversary events.
+
+    Attributes:
+        idol_id (:class:`int`): The ID of the idol.
+        borders (list[:class:`int`]): The borders for the rewards.
+    """
     def __init__(self, data: EventIdolPtDict):
         self.idol_id: int = data.get("idolId")
         self.borders: list[int] = data.get("borders")
 
 
 class EventBorders:
+    """Represents the borders with rewards for events.
+
+    Attributes:
+        event_pt (list[:class:`int`]): The borders for the point rewards.
+        high_score (list[:class:`int`]): The borders for the high score rewards.
+        high_score_2 (list[:class:`int`]): The borders for the high score rewards
+            for the second song for twin stage events.
+        high_score_total (list[:class:`int`]): The borders for the total high score rankings
+            for tune events.
+        loung_pt (list[:class:`int`] | `None`): The borders for the lounge point rewards.
+        idol_pt (list[:class:`EventIdolPt`] | `None`) The borders for idols during anniversary events.
+    """
     def __init__(self, data: EventBordersDict):
         self.event_pt: list[int] | None = data.get("eventPoint")
         self.high_score: list[int] | None = data.get("highScore")
         self.high_score_2: list[int] | None = data.get("highScore2")
         self.high_score_total: list[int] | None = data.get("highScoreTotal")
-        self.lounge_pt = data.get("loungePoint")
+        self.lounge_pt: list[int] | None = data.get("loungePoint")
 
         idol_pts: list[EventIdolPtDict] | None = data.get("idolPoint")
         if idol_pts:
@@ -132,6 +150,13 @@ class EventBorders:
 
 
 class EventSumm:
+    """Represents the number of players participating throughout the event.
+
+    Attributes:
+        count (:class:`int`): The count of players at a specific time.
+        sum_time (:class:`datetime.datetime` | `None`): The time when the data is aggregated.
+        updated (:class:`datetime.datetime` | `None`): The time when the data is updated.
+    """
     def __init__(self, data: EventSummDict):
         self.count: int = data.get("count")
         self.sum_time: datetime | None = data.get("aggregatedAt")
@@ -144,12 +169,24 @@ class EventSumm:
 
 
 class EventData:
+    """Represents the logged scores for a rank throughout the event. 
+
+    Attributes:
+        score (:class:`int`): The score at a point of time.
+        aggregated (:class:`datetime.datetime`): The time when the data is aggregated.
+    """
     def __init__(self, data: EventDataDict):        
         self.score = data.get("score")
         self.aggregated = data.get("aggregatedAt")
 
 
 class EventLog:
+    """Represents the scores of a specific rank throughout the event. 
+
+    Attributes:
+        rank (:class:`int`): The rank that this log represents.
+        data (list[:class:`EventData`]): The list of logged scores for this specifc rank.
+    """
     def __init__(self, data: EventLogDict):
         self.rank = data.get("rank")
         self.data: list[EventData] = []
@@ -159,6 +196,13 @@ class EventLog:
 
 
 class LoungeHistory:
+    """Represents the final event results of a lounge.
+
+    Attributes:
+        event (:class:`Event`): The information for a specifc event.
+        rank (:class:`int`): The final rank for an event.
+        score (:class:`int`): The final score for an event.
+    """
     def __init__(self, data: EventLoungeDict):
         self.event: Event = Event(data.get("event"))
         self.rank = data.get("rank")
@@ -166,6 +210,18 @@ class LoungeHistory:
 
 
 class VotingEvent:
+    """Represents the Voting event response that the API returns.
+
+    This class is initialized via a TypedDict representing the JSON response
+    that the API returns. Therefore, you are not meant to manually initialize
+    this class.
+
+    Attributes:
+        id (:class:`int`): The ID of the voting event.
+        vote_type (:class:`int`): The type of the voting system.
+            1 for a mandatory vote, 2 for a voluntary one.
+        event (:class:`Event`): Information for the event.
+    """
     def __init__(self, data: VotingEventDict):
         self.id: int = data.get("id")
         self.vote_type: int = data.get("voteSystemType")
@@ -176,6 +232,13 @@ class VotingEvent:
 
 
 class VotingEventRanking:
+    """Represents the ranking results at a point in time.
+
+    Attributes:
+        candidate_id (:class:`int`): The ID of the candidate.
+        rank (:class:`int`): The rank of the candidate.
+        point (:class:`int`): The acquired points for the candidate.
+    """
     def __init__(self, data: VotingEventRankingDict) -> None:
         self.candidate_id: str = data.get("candidateId")
         self.rank: int = data.get("rank")
@@ -183,6 +246,13 @@ class VotingEventRanking:
 
 
 class VotingEventLogs:
+    """Represents the ranking log of candidates at a point in time.
+
+    Attributes:
+        aggregated (:class:`datetime.datetime`): The date when the log was aggregated.
+        updated (:class:`datetime.datetime`): The date when the log was updated.
+        ranking (:class:`VotingEventRanking`): The rankings of each candidate at this point of time.
+    """
     def __init__(self, data: VotingEventLogDict):
         self.aggregated: datetime = data.get("aggregatedAt")
         self.updated: datetime = data.get("updatedAt")
