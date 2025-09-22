@@ -251,7 +251,7 @@ class PartialStats:
 
     Attributes:
         before_awakened (:class:`int` | None): Value of a stat before it is awakened.
-        after_awakened (:class:`int` | None): Value of a state after it is awakened.
+        after_awakened (:class:`int` | None): Value of a stat after it is awakened.
     """
     def __init__(self, data: dict[str, int]):
         self.before_awakened: int | None = data["beforeAwakened"]
