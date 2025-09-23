@@ -97,13 +97,13 @@ class EventAPI:
 
         Args:
             event (:class:`int` | :class:`~pryncess.models.events.Event`): Specific event to fetch for.
-            type (:class:`str`): Type of ranking to fetch.
-                Valid types are:
-                    - eventPoint 
-                    - highScore
-                    - highScore2
-                    - highScoreTotal 
-                    - loungePoint
+            type (:class:`str`): Type of ranking to fetch. Valid types are:
+
+                - eventPoint 
+                - highScore
+                - highScore2
+                - highScoreTotal 
+                - loungePoint
 
         Returns:
             :class:`~pryncess.models.events.EventSumm` | None: An EventSumm object if results are found, or
@@ -159,13 +159,13 @@ class EventAPI:
 
         Args:
             event (:class:`int` | :class:`~pryncess.models.events.Event`): Specific event to fetch for.
-            type (:class:`str`): Type of ranking to fetch.
-                Valid types are:
-                    - eventPoint 
-                    - highScore
-                    - highScore2
-                    - highScoreTotal 
-                    - loungePoint
+            type (:class:`str`): Type of ranking to fetch. Valid types are:
+
+                - eventPoint 
+                - highScore
+                - highScore2
+                - highScoreTotal 
+                - loungePoint
 
             ranks (:class:`int`): A list of specific ranks to query for.
             since (:class:`datetime.datetime`): Start time of the logs to fetch.
