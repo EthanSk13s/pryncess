@@ -37,7 +37,7 @@ class IdolDict(TypedDict):
     cv: str
     colorCode: str
     birthplace: MiscDataDict
-    handedness: MiscDataDict
+    handednessType: MiscDataDict
     constellation: MiscDataDict
     bloodType: MiscDataDict
     birthday: BirthdayDict

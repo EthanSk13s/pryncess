@@ -110,7 +110,7 @@ class Idol:
 
         self.age: int | None = data.get("age")
         self.birthplace = MiscData(data.get("birthplace"))
-        self.handedness = MiscData(data.get("handedness"))
+        self.handedness = MiscData(data.get("handednessType"))
 
         self.height: float = data.get("height")
         self.weight: float = data.get("weight")
