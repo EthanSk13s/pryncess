@@ -80,3 +80,9 @@ class VotingEventLogDict(TypedDict):
     aggregatedAt: datetime
     updatedAt: datetime
     ranking: list[VotingEventRankingDict]
+
+
+class LoungeEventDict(TypedDict):
+    rank: int
+    score: int
+    event: EventDict

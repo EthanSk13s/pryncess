@@ -3,6 +3,7 @@ import requests
 from typing import cast
 
 from pryncess.internals import Client
+from pryncess.models.events import LoungeEventResult
 from pryncess.models.lounges import Lounge
 from pryncess.types.lounges import LoungeDict
 
@@ -66,5 +67,25 @@ class LoungeAPI:
         
         if isinstance(resp, list):
             results = [Lounge(lounge) for lounge in resp]
+
+            return results
+    
+    def get_event_results(self, lounge_id: str | Lounge) -> list[LoungeEventResult] | None:
+        """Retrieves the event results that a lounge achieved.
+
+        Args:
+            lounge_id (:class:`str` | :class:`~pryncess.models.lounges.Lounge`): Specifc Lounge to search for.
+        
+        Returns:
+            list[:class:`~pryncess.models.events.LoungeEventResult`]: A list of all event results that the
+            lounge achieved.
+        """
+        resp = self._client.get(f"{self.prefix_url}/{str(lounge_id)}/eventResults")
+
+        if not resp:
+            return None
+        
+        if isinstance(resp, list):
+            results = [LoungeEventResult(result) for result in resp]
 
             return results

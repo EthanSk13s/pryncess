@@ -11,7 +11,8 @@ from pryncess.types.events import (
     EventLoungeDict,
     VotingEventRankingDict,
     VotingEventDict,
-    VotingEventLogDict
+    VotingEventLogDict,
+    LoungeEventDict
 )
 
 from .cards import Card
@@ -260,4 +261,19 @@ class VotingEventLogs:
 
         for rank in data.get("ranking"):
             self.ranking.append(VotingEventRanking(rank))
+
+
+class LoungeEventResult:
+    """Represents the event results made by a specifc lounge.
+
+    Attributes:
+        rank (:class:`int`): The final rank the lounge achieved in the event.
+        score (:class:`int`): The final score the lounge achieved in the event.
+        event (:class:`Event`): The Event information.
+    """
+
+    def __init__(self, data: LoungeEventDict) -> None:
+        self.rank: int = data["rank"]
+        self.score: int = data["score"]
+        self.event: Event = Event(data["event"])
 
