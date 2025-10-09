@@ -2,6 +2,7 @@ import requests
 
 from pryncess.mltd.card_api import CardAPI
 from pryncess.mltd.event_api import EventAPI
+from pryncess.mltd.idol_api import IdolAPI
 from pryncess.mltd.lounge_api import LoungeAPI
 from pryncess.mltd.vote_api import VoteAPI
 
@@ -54,3 +55,12 @@ class MLTDClient:
         """
 
         return LoungeAPI(self.version, self.session)
+    
+    def idol_api(self) -> IdolAPI:
+        """Returns an instance of IdolAPI.
+
+        Returns:
+            IdolAPI: An instance of IdolAPI.
+        """
+
+        return IdolAPI(self.version, self.session)
