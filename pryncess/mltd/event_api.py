@@ -188,4 +188,36 @@ class EventAPI:
             logs = [EventLog(log) for log in resp]
 
             return logs
-            
+    
+    def get_idol_logs(
+            self, event: int | Event, idol: int | Idol,
+            ranks: list[int], since: datetime | None = None,
+            all: bool = False) -> list[EventLog] | None:
+        """Get the logs of the per-idol rankings by rank.
+
+        Args:
+            event (:class:`int` | :class:`~pryncess.models.events.Events`): Specific event to fetch for
+                (Specifically anniversary events as those are the only ones with idol rankings so far.)
+            idol (:class:`int` | :class:`~pryncess.models.idols.Idol`): Specific idol to fetch for.
+            ranks (:class:`int`): A list of specific ranks to query for.
+            since (:class:`datetime.datetime`): Start time of the logs to fetch.
+            all (:class:`bool`): A boolean value whether to get all the data without downsampling.
+        
+        Returns:
+            :class:`~pryncess.models.events.EventLog` | None: An EventLog object if results are found, or
+            None if the request fails.
+        """
+
+        url = f"{self.prefix_url}/{int(event)}/rankings/idolPoint/{int(idol)}/logs/"
+        url += ",".join(str(i) for i in ranks)
+
+        params = {"since": since} if since else None
+        resp = self._client.get(url, args=params)
+
+        if not resp:
+            return None
+        
+        if isinstance(resp, list):
+            logs = [EventLog(log) for log in resp]
+
+            return logs
